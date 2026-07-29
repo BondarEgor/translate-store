@@ -1,29 +1,13 @@
+import { localesApi } from "@/entities/locales/api";
 import { AddNewSidebarEntityItem } from "@/shared/ui/add-new-sidebar-entity";
 import { useMutation } from "@tanstack/react-query";
 
-export const AddNewLanguage = ({
-  onAddSuccess,
-}: {
-  onAddSuccess: (language: string) => void;
-}) => {
-  const submit = async (newLanguage: string) => {
-    return fetch("http://localhost:3001/api/locales", {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify({
-        code: newLanguage,
-      }),
-    }).then((r) => r.json());
-  };
-
+export const AddNewLanguage = ({ onAddLocale }: { onAddLocale: (language: string) => void }) => {
   const { mutate } = useMutation({
-    mutationFn: submit,
-    onSuccess: ({ code }) => onAddSuccess(code),
+    mutationFn: localesApi.create,
+    onMutate: (locale) => onAddLocale(locale),
     mutationKey: ["add language"],
   });
-
   return (
     <AddNewSidebarEntityItem
       onConfirm={(newLanguage) => mutate(newLanguage)}
@@ -31,7 +15,7 @@ export const AddNewLanguage = ({
       title="Новый язык"
       primaryBtn="Добавить язык"
       secondaryBtn="Отмена"
-      label="Языки"
+      label="Добавить язык"
     />
   );
 };

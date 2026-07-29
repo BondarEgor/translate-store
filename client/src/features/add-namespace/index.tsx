@@ -1,3 +1,4 @@
+import { namespacesApi } from "@/entities/namespaces/api";
 import { AddNewSidebarEntityItem } from "@/shared/ui/add-new-sidebar-entity";
 import { useMutation } from "@tanstack/react-query";
 
@@ -6,22 +7,9 @@ export const AddNamespace = ({
 }: {
   onAddSuccess: (newNamespace: string) => void;
 }) => {
-  const submit = async (newNamespace: string) => {
-    return fetch("http://localhost:3001/api/namespaces", {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify({
-        namespace: newNamespace,
-      }),
-    }).then((r) => r.json());
-  };
-
   const { mutate } = useMutation({
-    mutationFn: submit,
+    mutationFn: namespacesApi.create,
     onSuccess: (newNamespace) => {
-      console.log(newNamespace);
       onAddSuccess(newNamespace.name);
     },
     mutationKey: ["add namespace"],

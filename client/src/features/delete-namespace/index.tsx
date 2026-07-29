@@ -1,3 +1,4 @@
+import { namespacesApi } from "@/entities/namespaces/api";
 import { DeleteEntityButton } from "@/shared/ui/delete-sidebar-entity";
 import { useMutation } from "@tanstack/react-query";
 
@@ -7,18 +8,8 @@ type Props = {
 };
 
 export const DeleteNamespace = ({ namespace, onDeleteSuccess }: Props) => {
-  const submit = async () => {
-    fetch("http://localhost:3001/api/namespaces", {
-      method: "DELETE",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify({ namespace }),
-    });
-  };
-
   const { mutate } = useMutation({
-    mutationFn: submit,
+    mutationFn: () => namespacesApi.remove(namespace),
     onSuccess: () => onDeleteSuccess(namespace),
     mutationKey: ["delete namespace"],
   });

@@ -1,8 +1,8 @@
 export type Translation = {
-  key: string;
-  locale: string;
-  namespace: string;
-  value: string;
+  namespace: string,
+  key: string,
+  locale: string,
+  value: string,
 };
 
 export type Translations = Translation[];

@@ -1,4 +1,3 @@
-/** Общий конверт ответа API: status = машиночитаемый итог, message — для тоста. */
 export interface ApiResult {
   status: string;
   message?: string;
@@ -29,6 +28,13 @@ export interface AppState extends ApiResult {
   locales: LocaleInfo[];
   namespaces: NamespaceInfo[];
   stats: Stats;
+}
+
+export interface Translation {
+  key: string;
+  locale: string;
+  namespace: string;
+  value: string;
 }
 
 export interface TranslationRow {

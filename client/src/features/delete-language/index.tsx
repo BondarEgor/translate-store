@@ -1,27 +1,16 @@
+import { localesApi } from "@/entities/locales/api";
 import { DeleteEntityButton } from "@/shared/ui/delete-sidebar-entity";
 import { useMutation } from "@tanstack/react-query";
 
 type Props = {
-  onDeleteSuccess: (language: string) => void;
-  language: string;
+  onDeleteLocale: (locale: string) => void;
+  locale: string;
 };
 
-export const DeleteLanguage = ({ language, onDeleteSuccess }: Props) => {
-  const submit = async () => {
-    fetch("http://localhost:3001/api/locales", {
-      method: "DELETE",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify({
-        code: language,
-      }),
-    });
-  };
-
+export const DeleteLanguage = ({ locale, onDeleteLocale }: Props) => {
   const { mutate } = useMutation({
-    mutationFn: submit,
-    onSuccess: () => onDeleteSuccess(language),
+    mutationFn: () => localesApi.remove(locale),
+    onMutate: () => onDeleteLocale(locale),
     mutationKey: ["delete language"],
   });
 

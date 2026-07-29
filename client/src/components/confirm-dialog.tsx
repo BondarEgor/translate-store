@@ -2,6 +2,7 @@ import { AlertDialog, Button, Flex } from "@radix-ui/themes";
 
 type ConfirmDialogProps = {
   open: boolean;
+  loading?: boolean;
   onOpenChange: (open: boolean) => void;
   title: string;
   description: string;
@@ -13,6 +14,7 @@ export const ConfirmDialog = ({
   open,
   onOpenChange,
   title,
+  loading,
   description,
   confirmLabel = "Удалить",
   onConfirm,
@@ -21,9 +23,7 @@ export const ConfirmDialog = ({
     <AlertDialog.Root open={open} onOpenChange={onOpenChange}>
       <AlertDialog.Content maxWidth="380px">
         <AlertDialog.Title>{title}</AlertDialog.Title>
-        <AlertDialog.Description size="2">
-          {description}
-        </AlertDialog.Description>
+        <AlertDialog.Description size="2">{description}</AlertDialog.Description>
         <Flex gap="3" mt="4" justify="end">
           <AlertDialog.Cancel>
             <Button variant="soft" color="gray">
@@ -31,7 +31,7 @@ export const ConfirmDialog = ({
             </Button>
           </AlertDialog.Cancel>
           <AlertDialog.Action>
-            <Button color="red" onClick={onConfirm}>
+            <Button color="red" onClick={onConfirm} loading={loading}>
               {confirmLabel}
             </Button>
           </AlertDialog.Action>

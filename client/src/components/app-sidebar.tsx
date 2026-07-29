@@ -6,38 +6,36 @@ import { ConfirmDialog } from "@/components/confirm-dialog";
 import { AddNamespaceDialog } from "./add-namespace-dialog";
 import { SidebarBottomInfo } from "./sidebar-bottom-info";
 import { AppSidebarEntity } from "../widgets/app-sidebar-entity";
-import { Namespaces } from "./namespaces";
-import { DeleteEntityButton } from "@/shared/ui/delete-sidebar-entity";
 import { DeleteLanguage } from "@/features/delete-language";
 import { DeleteNamespace } from "@/features/delete-namespace";
 import { AddNewLanguage } from "@/features/add-language";
 import { AddNamespace } from "@/features/add-namespace";
+import { Namespaces } from "@/entities/namespaces/types";
+import { Locales } from "@/entities/locales/types";
 
 const BORDER = "1px solid var(--gray-a4)";
 
 type NsDialog = { mode: "add" } | { mode: "edit"; name: string } | null;
 
-interface AppSidebarProps {
-  state: AppState;
-  selectedNs: string | null;
-  locales: { code: string; isDefault: boolean }[];
-  namespaces: { name: string }[];
+type Props = {
+  locales: Locales;
+  namespaces?: Namespaces;
   onSelectNs: (ns: string) => void;
-}
+};
 
-/** Единый сайдбар: таблицы и языки — сворачиваемые секции, статистика снизу. */
-export function AppSidebar({ locales, state, namespaces }: AppSidebarProps) {
+export function AppSidebar({ locales, namespaces }: Props) {
   const [nsDialog, setNsDialog] = useState<NsDialog>(null);
   const [removeLocale, setRemoveLocale] = useState<string | null>(null);
-  const s = state.stats;
+
+  const sortedLocalesByDefault = locales.sort((a, b) => {
+    if (a.isDefault) return -1;
+    if (b.isDefault) return 1;
+
+    return 0;
+  });
 
   return (
-    <Flex
-      direction="column"
-      width="264px"
-      flexShrink="0"
-      style={{ borderRight: BORDER }}
-    >
+    <Flex direction="column" width="264px" flexShrink="0" style={{ borderRight: BORDER }}>
       <Flex
         align="center"
         gap="3"
@@ -68,14 +66,9 @@ export function AppSidebar({ locales, state, namespaces }: AppSidebarProps) {
       <ScrollArea type="auto" style={{ flexGrow: 1, minHeight: 0 }}>
         <Box py="3">
           <AppSidebarEntity
-            renderAddItemNode={({ onAddSuccess }) => (
-              <AddNamespace onAddSuccess={onAddSuccess} />
-            )}
-            renderDeleteNode={({ name, onDeleteSuccess }) => (
-              <DeleteNamespace
-                namespace={name}
-                onDeleteSuccess={onDeleteSuccess}
-              />
+            renderAddItemNode={({ onAddEntity }) => <AddNamespace onAddSuccess={onAddEntity} />}
+            renderDeleteNode={({ name, onDeleteEntity }) => (
+              <DeleteNamespace namespace={name} onDeleteSuccess={onDeleteEntity} />
             )}
             label="Таблицы"
             items={namespaces}
@@ -84,22 +77,12 @@ export function AppSidebar({ locales, state, namespaces }: AppSidebarProps) {
           <Separator size="4" my="2" />
 
           <AppSidebarEntity
-            renderAddItemNode={({ onAddSuccess }) => (
-              <AddNewLanguage onAddSuccess={onAddSuccess} />
+            renderAddItemNode={({ onAddEntity }) => <AddNewLanguage onAddLocale={onAddEntity} />}
+            renderDeleteNode={({ name, onDeleteEntity }) => (
+              <DeleteLanguage locale={name} onDeleteLocale={onDeleteEntity} />
             )}
-            renderDeleteNode={({ name, onDeleteSuccess }) => (
-              <DeleteLanguage
-                language={name}
-                onDeleteSuccess={onDeleteSuccess}
-              />
-            )}
-            description="Все существующие ключи сразу появятся в новом языке."
-            title="Новый язык"
-            primaryBtn="Добавить язык"
-            secondaryBtn="Отмена"
-            modalLabel="Добавить язык"
             label="Языки"
-            items={locales.map((locale) => ({
+            items={sortedLocalesByDefault.map((locale) => ({
               name: locale.code,
               isDefault: locale.isDefault,
             }))}
@@ -107,13 +90,9 @@ export function AppSidebar({ locales, state, namespaces }: AppSidebarProps) {
         </Box>
       </ScrollArea>
 
-      <SidebarBottomInfo stats={s} />
+      {/* <SidebarBottomInfo stats={s} /> */}
 
-      <AddNamespaceDialog
-        dialog={nsDialog}
-        onClose={() => setNsDialog(null)}
-        actions={{}}
-      />
+      <AddNamespaceDialog dialog={nsDialog} onClose={() => setNsDialog(null)} actions={{}} />
 
       <ConfirmDialog
         open={removeLocale !== null}

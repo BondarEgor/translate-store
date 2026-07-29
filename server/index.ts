@@ -3,7 +3,7 @@ import cors from 'cors';
 import express, { type Express, type Request, type Response } from 'express';
 import { createLocale, deleteLocale, getLocales } from './repositories/locale.repository.ts';
 import { createNamespace, deleteNamespace, getNamespaces } from './repositories/namespace.repository.ts';
-import { getTranslationsForLocale } from './repositories/translations.repository.ts';
+import { addTranslation, deleteTranslation, getTranslations, updateTranslationValue } from './repositories/translations.repository.ts';
 
 const app: Express = express();
 const port = 3001;
@@ -50,8 +50,8 @@ app.post('/api/locales', async (req: Request<{ code: string; }>, res) => {
   }
 });
 
-app.delete('/api/locales', async (req: Request<{}, {}, { code: string; }>, res) => {
-  const locale = req.body.code;
+app.delete('/api/locales/:locale', async (req: Request<{ locale: string; }>, res) => {
+  const locale = req.params.locale;
 
   try {
     await deleteLocale(locale);
@@ -94,8 +94,7 @@ app.post('/api/namespaces', async (req: Request<{}, {}, { namespace: string; }>,
   try {
     const createdLocale = await createNamespace(newNameSpace);
     res.send(createdLocale);
-  } catch (e) {
-    console.log(e);
+  } catch {
     res.status(500).send({
       message: `Не удалось добавить таблицу:${newNameSpace}`
     });
@@ -114,20 +113,73 @@ app.delete('/api/namespaces', async (req: Request<{}, {}, { namespace: string; }
   }
 });
 
-app.get('/api/translations', async (req: Request<{}, {}, {}, { locale: string; }>, res) => {
-  const locale = req.query.locale;
+app.get('/api/translations', async (req: Request<{}, {}, {}, { namespace: string; }>, res) => {
+  const { namespace } = req.query;
 
   try {
-    const translationsForLocale = await getTranslationsForLocale(locale);
+    const translationsForLocale = await getTranslations(namespace);
     res.send(translationsForLocale);
   } catch {
     res.status(500).send({
-      message: `Не удалось получить переводы для языка: ${locale}`
+      message: `Не удалось получить переводы для таблицы: ${namespace}`
+    });
+  }
+});
+
+app.post('/api/translations', async (req: Request<{}, {}, { namespace: string, locale: string, key: string, value: string; }>, res) => {
+  try {
+    const translationsForLocale = await addTranslation(req.body);
+    res.send(translationsForLocale);
+  } catch {
+    res.status(500).send({
+      message: `Не удалось добавить перевод для ${req.body.key}`
+    });
+  }
+});
+
+app.delete('/api/translations/:locale/:key', async (req: Request<{ locale: string, key: string; }>, res) => {
+  const { locale, key } = req.params;
+
+  try {
+    await deleteTranslation(locale, key);
+    res.status(204).send();
+  } catch {
+    res.status(500).send({
+      message: `Не удалось удалить перевод для ${key}`
+    });
+  }
+});
+
+app.put('/api/translations/:namespace/:locale/:key', async (req: Request<{ namespace: string; locale: string; key: string; }, {}, { value: string; }>, res) => {
+  const { value } = req.body;
+  const { namespace, key, locale } = req.params;
+
+  try {
+    const updatedValue = await updateTranslationValue({ namespace, locale, key, newValue: value });
+    res.send(updatedValue);
+  } catch {
+    res.status(500).send({
+      message: "Something went wrong"
+    });
+  }
+});
+
+app.put('/api/translations/:namespace/:locale/:key/all', async (req: Request<{ namespace: string; locale: string; key: string; }, {}, { value: string; }>, res) => {
+  const { value } = req.body;
+  const { namespace, key, locale } = req.params;
+
+  try {
+    await updateTranslationValue({ namespace, locale, key, newValue: value });
+  } catch {
+    res.status(500).send({
+      message: "Something went wrong"
     });
   }
 });
 
 
-app.listen(port, () => {
-  console.log('listening port');
+app.listen(port, (error) => {
+  if (error) {
+    console.error(`listening port error: ${error}`);
+  }
 });

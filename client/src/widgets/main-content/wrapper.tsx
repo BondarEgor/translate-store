@@ -1,5 +1,6 @@
 import { translationsApi } from "@/entities/translations/api";
 import { KeysTable } from "../keys-table";
+import { TableSkeleton } from "@/shared/ui/table-skeleton";
 import { useAppQuery } from "@/shared/hooks/use-app-query";
 import { Locales } from "@/entities/locales/types";
 
@@ -18,7 +19,7 @@ export const KeyTablesWrapper = ({
   });
 
   if (translationsLoading) {
-    return "Loading..";
+    return <TableSkeleton />;
   }
 
   return (

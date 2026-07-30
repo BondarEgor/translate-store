@@ -82,6 +82,11 @@ export const AppSidebarEntity = ({
           <Text truncate>{item.name}</Text>
         </NavRow>
       ))}
+      {items.size === 0 && (
+        <Text size="1" color="gray" style={{ padding: "0 8px" }}>
+          Пусто
+        </Text>
+      )}
       {renderAddItemNode({ onAddEntity })}
     </NavSection>
   );

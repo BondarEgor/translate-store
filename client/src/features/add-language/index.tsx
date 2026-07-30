@@ -1,4 +1,5 @@
 import { localesApi } from "@/entities/locales/api";
+import { LOCALE_RU } from "@/constants/locales";
 import { AddNewSidebarEntityItem } from "@/shared/ui/add-new-sidebar-entity";
 import { useMutation } from "@tanstack/react-query";
 
@@ -12,6 +13,7 @@ export const AddNewLanguage = ({ onAddLocale }: { onAddLocale: (language: string
     <AddNewSidebarEntityItem
       onConfirm={(newLanguage) => mutate(newLanguage)}
       description="Все существующие ключи сразу появятся в новом языке."
+      options={LOCALE_RU}
       title="Новый язык"
       primaryBtn="Добавить язык"
       secondaryBtn="Отмена"

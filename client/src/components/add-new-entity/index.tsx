@@ -1,4 +1,4 @@
-import { Dialog, TextField, Flex, Button } from "@radix-ui/themes";
+import { Dialog, TextField, Flex, Button, Select } from "@radix-ui/themes";
 import { useState } from "react";
 
 type Props = {
@@ -9,6 +9,7 @@ type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onConfirm: (newEntity: string) => void;
+  options?: Record<string, string>;
 };
 
 export const AddNewEntityModal = ({
@@ -19,6 +20,7 @@ export const AddNewEntityModal = ({
   description,
   primaryBtn,
   secondaryBtn,
+  options,
 }: Props) => {
   const [entityName, setEntityName] = useState("");
 
@@ -28,14 +30,27 @@ export const AddNewEntityModal = ({
         <Dialog.Title>{title}</Dialog.Title>
         <Dialog.Description size="2">{description}</Dialog.Description>
 
-        <TextField.Root
-          autoFocus
-          mt="3"
-          value={entityName}
-          placeholder="Введите название"
-          style={{ fontFamily: "monospace" }}
-          onChange={(e) => setEntityName(e.target.value)}
-        />
+        {options ? (
+          <Select.Root value={entityName} onValueChange={setEntityName}>
+            <Select.Trigger mt="3" placeholder="Выберите язык" style={{ width: "100%" }} />
+            <Select.Content>
+              {Object.entries(options).map(([code, name]) => (
+                <Select.Item key={code} value={code}>
+                  {code} — {name}
+                </Select.Item>
+              ))}
+            </Select.Content>
+          </Select.Root>
+        ) : (
+          <TextField.Root
+            autoFocus
+            mt="3"
+            value={entityName}
+            placeholder="Введите название"
+            style={{ fontFamily: "monospace" }}
+            onChange={(e) => setEntityName(e.target.value)}
+          />
+        )}
 
         <Flex gap="3" mt="4" justify="end">
           <Dialog.Close>
@@ -43,11 +58,7 @@ export const AddNewEntityModal = ({
               {secondaryBtn}
             </Button>
           </Dialog.Close>
-          <Button
-            highContrast
-            disabled={!entityName.trim()}
-            onClick={() => onConfirm(entityName)}
-          >
+          <Button disabled={!entityName.trim()} onClick={() => onConfirm(entityName)}>
             {primaryBtn}
           </Button>
         </Flex>

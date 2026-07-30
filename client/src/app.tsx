@@ -50,7 +50,7 @@ export function App() {
             px="4"
             height="56px"
             flexShrink="0"
-            style={{ borderBottom: BORDER }}
+            style={{ borderBottom: BORDER, boxShadow: "var(--shadow-3)" }}
           >
             <IconButton
               variant="ghost"
@@ -66,7 +66,7 @@ export function App() {
               {activeNs && (
                 <>
                   {" / "}
-                  <Text as="span" size="2" weight="bold" highContrast>
+                  <Text as="span" size="2" weight="bold" color="green">
                     {activeNs}
                   </Text>
                 </>

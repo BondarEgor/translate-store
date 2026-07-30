@@ -19,6 +19,7 @@ export const TranslationValueCell = ({ value, onSave }: Props) => {
         justify={"between"}
         style={{ cursor: "text" }}
         onClick={() => {
+          setDraft(value ?? "");
           setEditing(true);
         }}
       >
@@ -41,8 +42,12 @@ export const TranslationValueCell = ({ value, onSave }: Props) => {
   return (
     <div>
       <TextArea
+        value={draft}
         onBlur={() => {
-          onSave(draft);
+          const next = draft.trim();
+
+          if (next && next !== value) onSave(next);
+
           setEditing(false);
         }}
         autoFocus

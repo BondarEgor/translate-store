@@ -11,6 +11,7 @@ type Props = {
   description?: string;
   primaryBtn: string;
   secondaryBtn: string;
+  options?: Record<string, string>;
 };
 
 export const AddNewSidebarEntityItem = ({
@@ -18,6 +19,7 @@ export const AddNewSidebarEntityItem = ({
   title,
   primaryBtn,
   secondaryBtn,
+  options,
   label,
   onConfirm,
 }: Props) => {
@@ -30,6 +32,7 @@ export const AddNewSidebarEntityItem = ({
         title={title}
         primaryBtn={primaryBtn}
         secondaryBtn={secondaryBtn}
+        options={options}
         open={isOpen}
         onOpenChange={setIsOpen}
         onConfirm={(entityName) => {

@@ -14,3 +14,49 @@ body {
 .row-hover:hover {
   background: var(--gray-a2);
 }
+
+.app-shell {
+  height: 100vh;
+  height: 100dvh;
+}
+
+.app-sidebar {
+  width: 264px;
+  flex-shrink: 0;
+  border-right: 1px solid var(--gray-a4);
+}
+
+.keys-search {
+  width: 260px;
+}
+
+.add-bar-key {
+  width: 224px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 640px) {
+  .app-shell {
+    flex-direction: column;
+  }
+
+  .app-sidebar {
+    width: 100%;
+    max-height: 40vh;
+    border-right: none;
+    border-bottom: 1px solid var(--gray-a4);
+  }
+
+  .keys-search,
+  .add-bar-key {
+    width: 100%;
+  }
+
+  .add-bar {
+    flex-wrap: wrap;
+  }
+
+  .add-bar-stats {
+    display: none;
+  }
+}

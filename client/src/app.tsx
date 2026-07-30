@@ -31,7 +31,7 @@ export function App() {
 
   return (
     <Theme appearance="dark" accentColor="green" grayColor="gray">
-      <Flex height="100vh">
+      <Flex className="app-shell">
         {sidebarOpen && (
           <AppSidebar
             activeNs={activeNs}
@@ -61,7 +61,7 @@ export function App() {
               <HamburgerMenuIcon />
             </IconButton>
 
-            <Text size="2" color="gray">
+            <Text size="2" color="gray" truncate>
               {"таблицы"}
               {activeNs && (
                 <>

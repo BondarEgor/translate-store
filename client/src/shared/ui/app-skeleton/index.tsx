@@ -4,15 +4,8 @@ import { TableSkeleton } from "../table-skeleton";
 const BORDER = "1px solid var(--gray-a4)";
 
 export const AppSkeleton = () => (
-  <Flex height="100vh">
-    <Flex
-      direction="column"
-      width="264px"
-      flexShrink="0"
-      gap="2"
-      p="3"
-      style={{ borderRight: BORDER }}
-    >
+  <Flex className="app-shell">
+    <Flex direction="column" gap="2" p="3" className="app-sidebar">
       <Skeleton style={{ width: 140, height: 20 }} />
       {Array.from({ length: 6 }, (_, index) => (
         <Skeleton key={index} style={{ width: "80%", height: 14 }} />

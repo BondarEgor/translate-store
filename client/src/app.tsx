@@ -62,7 +62,16 @@ export function App() {
             </IconButton>
 
             <Text size="2" color="gray">
-              {["таблицы", activeNs, activeLocale].filter(Boolean).join(" / ")}
+              {"таблицы"}
+              {activeNs && (
+                <>
+                  {" / "}
+                  <Text as="span" size="2" weight="bold" highContrast>
+                    {activeNs}
+                  </Text>
+                </>
+              )}
+              {activeLocale && ` / ${activeLocale}`}
             </Text>
           </Flex>
 

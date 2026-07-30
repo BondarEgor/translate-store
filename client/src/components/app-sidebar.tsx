@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Box, Flex, ScrollArea, Separator, Text } from "@radix-ui/themes";
-import { GlobeIcon } from "@radix-ui/react-icons";
 import { ConfirmDialog } from "@/components/confirm-dialog";
 import { AppSidebarEntity } from "../widgets/app-sidebar-entity";
 import { DeleteLanguage } from "@/features/delete-language";
@@ -45,22 +44,12 @@ export function AppSidebar({
         flexShrink="0"
         style={{ borderBottom: BORDER }}
       >
-        <Flex
-          align="center"
-          justify="center"
-          width="28px"
-          height="28px"
-          flexShrink="0"
-          style={{ background: "var(--text)", borderRadius: "var(--radius-2)" }}
-        >
-          <GlobeIcon color="var(--background)" />
-        </Flex>
         <Box style={{ minWidth: 0 }}>
           <Text as="div" size="2" weight="bold" truncate>
-            Хранилище переводов
+            Translate Store
           </Text>
           <Text as="div" size="1" color="gray">
-            админка ключей
+            all keys, no mess
           </Text>
         </Box>
       </Flex>

@@ -15,7 +15,7 @@ export const TranslationValueCell = ({ value, onSave }: Props) => {
     return (
       <Flex
         gap="2"
-        align="start"
+        align="center"
         justify={"between"}
         style={{ cursor: "text" }}
         onClick={() => {

@@ -10,3 +10,7 @@ body {
   color: var(--text);
   font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
 }
+
+.row-hover:hover {
+  background: var(--gray-a2);
+}

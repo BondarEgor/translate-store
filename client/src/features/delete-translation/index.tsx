@@ -1,7 +1,7 @@
 import { ConfirmDialog } from "@/components/confirm-dialog";
 import { translationsApi } from "@/entities/translations/api";
 import { TrashIcon } from "@radix-ui/react-icons";
-import { Flex, Tooltip, IconButton } from "@radix-ui/themes";
+import { Tooltip, IconButton } from "@radix-ui/themes";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 
@@ -23,19 +23,17 @@ export const DeleteTranslation = ({
 
   return (
     <>
-      <Flex align="start" mt="1">
-        <Tooltip content="Удалить ключ">
-          <IconButton
-            size="1"
-            variant="ghost"
-            color="gray"
-            aria-label={`Удалить ключ ${keyName}`}
-            onClick={() => setOpen(true)}
-          >
-            <TrashIcon />
-          </IconButton>
-        </Tooltip>
-      </Flex>
+      <Tooltip content="Удалить ключ">
+        <IconButton
+          size="1"
+          variant="ghost"
+          color="gray"
+          aria-label={`Удалить ключ ${keyName}`}
+          onClick={() => setOpen(true)}
+        >
+          <TrashIcon />
+        </IconButton>
+      </Tooltip>
 
       <ConfirmDialog
         open={open}

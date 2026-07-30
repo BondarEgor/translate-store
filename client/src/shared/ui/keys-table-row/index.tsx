@@ -29,10 +29,20 @@ export const KeysTableRow = ({
       gap="3"
       px="4"
       py="3"
+      align="center"
+      className="row-hover"
       style={{ borderBottom: KEYS_TABLE_BORDER }}
     >
       <Tooltip content={hasValue ? "Перевод есть" : "Нет перевода"}>
-        <Box mt="2" width="8px" height="8px" />
+        <Box
+          width="8px"
+          height="8px"
+          flexShrink="0"
+          style={{
+            borderRadius: "50%",
+            background: hasValue ? "var(--green-9)" : "var(--gray-a6)",
+          }}
+        />
       </Tooltip>
       <Box style={{ minWidth: 0 }}>
         <TranslationKeyName row={row} />

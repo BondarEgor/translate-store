@@ -1,14 +1,13 @@
 import { useState } from "react";
 import { Text, TextField, Tooltip } from "@radix-ui/themes";
-import type { RenameKeyPayload, Translation } from "@/api";
+import type { Translation } from "@/api";
 import { KEYS_TABLE_MONO } from "@/shared/constants/keys-table";
 
 type TranslationKeyNameProps = {
   row: Translation;
-  onRename: (payload: RenameKeyPayload) => Promise<unknown>;
 };
 
-export const TranslationKeyName = ({ row, onRename }: TranslationKeyNameProps) => {
+export const TranslationKeyName = ({ row }: TranslationKeyNameProps) => {
   const [editing, setEditing] = useState(false);
 
   if (!editing) {

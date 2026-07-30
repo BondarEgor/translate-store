@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
-import { Box, Button, Flex, ScrollArea, Text, TextField } from "@radix-ui/themes";
+import { useState } from "react";
+import { Box, Flex, ScrollArea, Text, TextField } from "@radix-ui/themes";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
-import type { ApiResult, RenameKeyPayload, Translation } from "@/api";
+import type { Translation } from "@/api";
 import { KeysTableRow } from "@/shared/ui/keys-table-row";
-import { KEYS_TABLE_BORDER, KEYS_TABLE_MONO } from "@/shared/constants/keys-table";
+import { KEYS_TABLE_BORDER } from "@/shared/constants/keys-table";
 import { KeysTableAddBar } from "@/widgets/keys-table-add-bar";
 import { Locales } from "@/entities/locales/types";
 import { Translations } from "@/entities/translations/types";
@@ -11,42 +11,39 @@ import { Translations } from "@/entities/translations/types";
 type Props = {
   translations?: Translations;
   activeNamespace: string | null;
+  activeLocale: string;
   locales: Locales;
-  onRenameKey: (payload: RenameKeyPayload) => Promise<ApiResult>;
 };
 
 const createTranslationKey = (key: string, locale: string) => `${locale}_${key}`;
 
+const toTranslationsMap = (list?: Translations) => {
+  const next = new Map<string, Translation>();
+
+  list?.forEach((translation) => {
+    next.set(createTranslationKey(translation.key, translation.locale), translation);
+  });
+
+  return next;
+};
+
 export const KeysTable = ({
   translations: initTranslations,
   activeNamespace,
+  activeLocale,
   locales,
-  onRenameKey,
 }: Props) => {
-  const [translations, setTranslations] = useState<Map<string, Translation>>(() => {
-    const next = new Map();
+  const [translations, setTranslations] = useState(() => toTranslationsMap(initTranslations));
+  const [prevInitTranslations, setPrevInitTranslations] = useState(initTranslations);
 
-    initTranslations?.forEach((translation) => {
-      next.set(createTranslationKey(translation.key, translation.locale), translation);
-    });
+  if (initTranslations !== prevInitTranslations) {
+    setPrevInitTranslations(initTranslations);
+    setTranslations(toTranslationsMap(initTranslations));
+  }
 
-    return next;
-  });
-
-  useEffect(() => {
-    setTranslations(() => {
-      const next = new Map();
-
-      initTranslations?.forEach((translation) => {
-        next.set(createTranslationKey(translation.key, translation.locale), translation);
-      });
-
-      return next;
-    });
-  }, [initTranslations]);
-
-  const [selectedLocale, setSelectedLocale] = useState("ru");
   const [query, setQuery] = useState("");
+
+  const defaultLocale = locales.find((l) => l.isDefault)?.code ?? activeLocale;
 
   const onAddKey = (newTranslation: Translation | Translations) => {
     setTranslations((prev) => {
@@ -106,15 +103,8 @@ export const KeysTable = ({
   }
 
   const translationsForLocale = Array.from(translations.values()).filter(
-    ({ locale }) => locale === selectedLocale,
+    ({ locale }) => locale === activeLocale,
   );
-
-  const defaultFirstLocales = [...locales].sort((a, b) => {
-    if (a.isDefault) return -1;
-    if (b.isDefault) return 1;
-
-    return 0;
-  });
 
   const searchedTranslations = translationsForLocale.filter((translation) => {
     const lowerCasedQuery = query.toLowerCase();
@@ -136,22 +126,6 @@ export const KeysTable = ({
         flexShrink="0"
         style={{ borderBottom: KEYS_TABLE_BORDER }}
       >
-        <Flex gap="1">
-          {defaultFirstLocales.map((locale) => (
-            <Button
-              key={locale.code}
-              size="1"
-              variant={locale.code === selectedLocale ? "solid" : "soft"}
-              color="gray"
-              disabled={translationsForLocale.length === 0 && locale.code !== "ru"}
-              highContrast={locale.code === selectedLocale}
-              onClick={() => setSelectedLocale(locale.code)}
-              style={{ textTransform: "uppercase", ...KEYS_TABLE_MONO }}
-            >
-              {locale.code}
-            </Button>
-          ))}
-        </Flex>
         <Box flexGrow="1" />
 
         <TextField.Root
@@ -174,9 +148,8 @@ export const KeysTable = ({
               onUpdateTranslation={onUpdateTranslation}
               key={`${translation.key}-${translation.locale}`}
               row={translation}
-              defaultLocale={selectedLocale}
+              defaultLocale={activeLocale}
               onDeleteTranslation={onDeleteTranslation}
-              onRename={onRenameKey}
             />
           ))}
         </ScrollArea>
@@ -190,7 +163,7 @@ export const KeysTable = ({
         namespace={activeNamespace}
         total={translations.size}
         missing={0}
-        locale={selectedLocale}
+        locale={defaultLocale}
         onAdd={onAddKey}
       />
     </>

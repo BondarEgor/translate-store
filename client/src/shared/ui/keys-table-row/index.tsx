@@ -1,5 +1,5 @@
 import { Box, Button, Flex, Grid, Text, Tooltip } from "@radix-ui/themes";
-import type { RenameKeyPayload, Translation } from "@/api";
+import type { Translation } from "@/api";
 import { TranslationKeyName } from "@/shared/ui/translation-key-name";
 import { KEYS_TABLE_BORDER, KEYS_TABLE_MONO } from "@/shared/constants/keys-table";
 import { DeleteTranslation } from "@/features/delete-translation";
@@ -9,7 +9,6 @@ type Props = {
   row: Translation;
   defaultLocale: string;
   namespace: string;
-  onRename: (payload: RenameKeyPayload) => Promise<unknown>;
   onDeleteTranslation: (locale: string, key: string) => void;
   onUpdateTranslation: (updated: Translation) => void;
 };
@@ -20,7 +19,6 @@ export const KeysTableRow = ({
   defaultLocale,
   onUpdateTranslation,
   onDeleteTranslation,
-  onRename,
 }: Props) => {
   const editable = row.locale === defaultLocale;
   const hasValue = row.value.length > 0;
@@ -37,7 +35,7 @@ export const KeysTableRow = ({
         <Box mt="2" width="8px" height="8px" />
       </Tooltip>
       <Box style={{ minWidth: 0 }}>
-        <TranslationKeyName row={row} onRename={onRename} />
+        <TranslationKeyName row={row} />
 
         <Text
           as="div"

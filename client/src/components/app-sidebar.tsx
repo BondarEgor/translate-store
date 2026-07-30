@@ -9,7 +9,6 @@ import { AddNewLanguage } from "@/features/add-language";
 import { AddNamespace } from "@/features/add-namespace";
 import { Namespaces } from "@/entities/namespaces/types";
 import { Locales } from "@/entities/locales/types";
-import { noop } from "@/shared/lib/noop";
 
 const BORDER = "1px solid var(--gray-a4)";
 
@@ -17,18 +16,24 @@ type Props = {
   locales: Locales;
   namespaces?: Namespaces;
   activeNs: string | null;
+  activeLocale: string | null;
   onSelectNs: (ns: string) => void;
+  onSelectLocale: (locale: string) => void;
 };
 
-export function AppSidebar({ locales, onSelectNs, activeNs, namespaces }: Props) {
+export function AppSidebar({
+  locales,
+  onSelectNs,
+  activeNs,
+  activeLocale,
+  onSelectLocale,
+  namespaces,
+}: Props) {
   const [removeLocale, setRemoveLocale] = useState<string | null>(null);
 
-  const sortedLocalesByDefault = locales.sort((a, b) => {
-    if (a.isDefault) return -1;
-    if (b.isDefault) return 1;
-
-    return 0;
-  });
+  const sortedLocalesByDefault = [...locales].sort(
+    (a, b) => Number(b.isDefault) - Number(a.isDefault),
+  );
 
   return (
     <Flex direction="column" width="264px" flexShrink="0" style={{ borderRight: BORDER }}>
@@ -75,7 +80,7 @@ export function AppSidebar({ locales, onSelectNs, activeNs, namespaces }: Props)
             onSelect={onSelectNs}
             label="Таблицы"
             selected={activeNs}
-            items={namespaces}
+            items={namespaces ?? []}
           />
 
           <Separator size="4" my="2" />
@@ -86,11 +91,12 @@ export function AppSidebar({ locales, onSelectNs, activeNs, namespaces }: Props)
               <DeleteLanguage locale={name} onDeleteLocale={onDeleteEntity} />
             )}
             label="Языки"
+            selected={activeLocale}
+            onSelect={onSelectLocale}
             items={sortedLocalesByDefault.map((locale) => ({
               name: locale.code,
               isDefault: locale.isDefault,
             }))}
-            onSelect={noop}
           />
         </Box>
       </ScrollArea>

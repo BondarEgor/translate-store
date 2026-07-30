@@ -5,3 +5,6 @@ dist/
 
 # секреты
 .env
+
+*storybook.log
+storybook-static

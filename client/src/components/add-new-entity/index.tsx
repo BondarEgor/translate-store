@@ -1,4 +1,4 @@
-import { Dialog, TextField, Flex, Button, Select } from "@radix-ui/themes";
+import { Dialog, TextField, Flex, Button, ScrollArea } from "@radix-ui/themes";
 import { useState } from "react";
 
 type Props = {
@@ -31,16 +31,21 @@ export const AddNewEntityModal = ({
         <Dialog.Description size="2">{description}</Dialog.Description>
 
         {options ? (
-          <Select.Root value={entityName} onValueChange={setEntityName}>
-            <Select.Trigger mt="3" placeholder="Выберите язык" style={{ width: "100%" }} />
-            <Select.Content position="item-aligned" style={{ maxHeight: 280 }}>
+          <ScrollArea type="auto" mt="3" style={{ height: 260 }}>
+            <Flex direction="column" gap="1" pr="2">
               {Object.entries(options).map(([code, name]) => (
-                <Select.Item key={code} value={code}>
+                <Button
+                  key={code}
+                  variant={entityName === code ? "soft" : "ghost"}
+                  color={entityName === code ? undefined : "gray"}
+                  onClick={() => setEntityName(code)}
+                  style={{ justifyContent: "flex-start", margin: 0 }}
+                >
                   {code} — {name}
-                </Select.Item>
+                </Button>
               ))}
-            </Select.Content>
-          </Select.Root>
+            </Flex>
+          </ScrollArea>
         ) : (
           <TextField.Root
             autoFocus

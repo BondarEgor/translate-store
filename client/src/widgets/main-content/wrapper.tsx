@@ -6,16 +6,16 @@ import { Locales } from "@/entities/locales/types";
 export const KeyTablesWrapper = ({
   locales,
   activeNamespace,
+  activeLocale,
 }: {
   activeNamespace: string;
+  activeLocale: string;
   locales: Locales;
 }) => {
   const { data: translations, isLoading: translationsLoading } = useAppQuery({
     queryKey: ["translations", activeNamespace],
     queryFn: () => translationsApi.getAllForNameSpace(activeNamespace),
   });
-
-  console.log(translations)
 
   if (translationsLoading) {
     return "Loading..";
@@ -26,7 +26,7 @@ export const KeyTablesWrapper = ({
       locales={locales}
       translations={translations}
       activeNamespace={activeNamespace}
-      onRenameKey={() => {}}
+      activeLocale={activeLocale}
     />
   );
 };

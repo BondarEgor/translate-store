@@ -10,7 +10,15 @@ const BORDER = "1px solid var(--gray-a4)";
 
 export function App() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const { namespaces = [], onSelectNs, locales = [], activeNs, isAppLoading } = useBootstrap();
+  const {
+    namespaces = [],
+    onSelectNs,
+    locales = [],
+    activeNs,
+    activeLocale,
+    onSelectLocale,
+    isAppLoading,
+  } = useBootstrap();
 
   if (isAppLoading) return null;
 
@@ -20,9 +28,11 @@ export function App() {
         {sidebarOpen && (
           <AppSidebar
             activeNs={activeNs}
+            activeLocale={activeLocale}
             locales={locales}
             namespaces={namespaces}
             onSelectNs={onSelectNs}
+            onSelectLocale={onSelectLocale}
           />
         )}
 
@@ -45,11 +55,11 @@ export function App() {
             </IconButton>
 
             <Text size="2" color="gray">
-              {`таблицы / ${activeNs}`}
+              {`таблицы / ${activeNs} / ${activeLocale}`}
             </Text>
           </Flex>
 
-          <MainContent activeNamespace={activeNs} locales={locales} />
+          <MainContent activeNamespace={activeNs} activeLocale={activeLocale} locales={locales} />
         </Flex>
       </Flex>
 

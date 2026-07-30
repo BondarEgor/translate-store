@@ -33,7 +33,7 @@ export const AddNewEntityModal = ({
         {options ? (
           <Select.Root value={entityName} onValueChange={setEntityName}>
             <Select.Trigger mt="3" placeholder="Выберите язык" style={{ width: "100%" }} />
-            <Select.Content>
+            <Select.Content style={{ maxHeight: 280 }}>
               {Object.entries(options).map(([code, name]) => (
                 <Select.Item key={code} value={code}>
                   {code} — {name}

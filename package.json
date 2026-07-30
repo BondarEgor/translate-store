@@ -6,7 +6,9 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "lint:client": "eslint client",
+    "format:check:client": "prettier --check client"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",

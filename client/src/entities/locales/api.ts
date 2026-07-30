@@ -1,5 +1,5 @@
-import { NetworkService } from '@/shared/services/network-service';
-import { Locale, Locales } from './types';
+import { NetworkService } from "@/shared/services/network-service";
+import { Locale, Locales } from "./types";
 
 const api = new NetworkService();
 
@@ -8,9 +8,8 @@ export const localesApi = {
 
   create: (locale: string) =>
     api.post<Locale>("/api/locales", {
-      code: locale
+      code: locale,
     }),
 
-  remove: (locale: string) =>
-    api.delete<void>(`/api/locales/${locale}`),
+  remove: (locale: string) => api.delete<void>(`/api/locales/${locale}`),
 };

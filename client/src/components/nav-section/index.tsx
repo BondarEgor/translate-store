@@ -1,13 +1,7 @@
 import { Box, Flex, IconButton, ChevronDownIcon, Text } from "@radix-ui/themes";
 import { useState } from "react";
 
-export const NavSection = ({
-  label,
-  children,
-}: {
-  label: string;
-  children: React.ReactNode;
-}) => {
+export const NavSection = ({ label, children }: { label: string; children: React.ReactNode }) => {
   const [open, setOpen] = useState(true);
 
   return (

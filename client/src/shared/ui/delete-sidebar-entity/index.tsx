@@ -3,11 +3,7 @@ import { TrashIcon } from "@radix-ui/react-icons";
 import { IconButton, Tooltip } from "@radix-ui/themes";
 import { useState } from "react";
 
-export const DeleteEntityButton = ({
-  onConfirm,
-}: {
-  onConfirm: () => void;
-}) => {
+export const DeleteEntityButton = ({ onConfirm }: { onConfirm: () => void }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (

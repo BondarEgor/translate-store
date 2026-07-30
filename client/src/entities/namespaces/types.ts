@@ -1,5 +1,5 @@
 export type Namespace = {
-  createdAt: string,
+  createdAt: string;
   name: string;
 };
 

@@ -1,4 +1,4 @@
-import { act, useState } from "react";
+import { useState } from "react";
 import { Flex, IconButton, Text, Theme } from "@radix-ui/themes";
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { Toaster } from "sonner";
@@ -14,12 +14,16 @@ export function App() {
 
   if (isAppLoading) return null;
 
-  console.log(activeNs, " tf");
   return (
     <Theme appearance="dark" accentColor="green" grayColor="gray">
       <Flex height="100vh">
         {sidebarOpen && (
-          <AppSidebar locales={locales} namespaces={namespaces} onSelectNs={onSelectNs} />
+          <AppSidebar
+            activeNs={activeNs}
+            locales={locales}
+            namespaces={namespaces}
+            onSelectNs={onSelectNs}
+          />
         )}
 
         <Flex direction="column" flexGrow="1" style={{ minWidth: 0 }}>

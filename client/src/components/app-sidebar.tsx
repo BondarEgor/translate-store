@@ -16,10 +16,11 @@ const BORDER = "1px solid var(--gray-a4)";
 type Props = {
   locales: Locales;
   namespaces?: Namespaces;
+  activeNs: string | null;
   onSelectNs: (ns: string) => void;
 };
 
-export function AppSidebar({ locales, onSelectNs, namespaces }: Props) {
+export function AppSidebar({ locales, onSelectNs, activeNs, namespaces }: Props) {
   const [removeLocale, setRemoveLocale] = useState<string | null>(null);
 
   const sortedLocalesByDefault = locales.sort((a, b) => {
@@ -62,12 +63,18 @@ export function AppSidebar({ locales, onSelectNs, namespaces }: Props) {
       <ScrollArea type="auto" style={{ flexGrow: 1, minHeight: 0 }}>
         <Box py="3">
           <AppSidebarEntity
-            renderAddItemNode={({ onAddEntity }) => <AddNamespace onAddNamespace={onAddEntity} />}
+            renderAddItemNode={({ onAddEntity }) => (
+              <AddNamespace
+                onSuccess={({ name }) => onSelectNs(name)}
+                onAddNamespace={onAddEntity}
+              />
+            )}
             renderDeleteNode={({ name, onDeleteEntity }) => (
               <DeleteNamespace namespace={name} onDeleteNamespace={onDeleteEntity} />
             )}
             onSelect={onSelectNs}
             label="Таблицы"
+            selected={activeNs}
             items={namespaces}
           />
 

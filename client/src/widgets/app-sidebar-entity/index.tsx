@@ -8,6 +8,7 @@ import { toast } from "sonner";
 type Props = {
   items: { name: string; isDefault?: boolean }[];
   label: string;
+  selected: string | null;
   onSelect: (value: string) => void;
   renderDeleteNode: (node: {
     name: string;
@@ -21,6 +22,7 @@ export const AppSidebarEntity = ({
   renderAddItemNode,
   renderDeleteNode,
   onSelect,
+  selected,
   label,
   items: initItems,
 }: Props) => {
@@ -63,6 +65,7 @@ export const AppSidebarEntity = ({
     <NavSection label={label}>
       {Array.from(items.values()).map((item) => (
         <NavRow
+          active={item.name === selected}
           onClick={() => onSelect(item.name)}
           key={item.name}
           action={

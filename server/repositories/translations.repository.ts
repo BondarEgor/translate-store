@@ -5,7 +5,7 @@ import type { Database } from '../types/database.types.ts';
 type TranslationRow = Database['public']['Tables']['translations']['Row'];
 type Translation = Omit<TranslationRow, 'updated_at'>;
 
-export async function getTranslations(namespace: string) {
+export async function getTranslationsForNamespace(namespace: string) {
   const { error, data } = await supabaseClient
     .from('translations')
     .select()
@@ -18,7 +18,7 @@ export async function getTranslations(namespace: string) {
   return data;
 }
 
-export async function addTranslation(query: { namespace: string, locale: string, key: string, value: string; }) {
+export async function createTranslation(query: { namespace: string, locale: string, key: string, value: string; }) {
   const { value, namespace, key, locale } = query;
   const allTranslations = await createTranslationsForAll({ locale, text: value });
 
@@ -40,6 +40,7 @@ export async function addTranslation(query: { namespace: string, locale: string,
     .select();
 
   if (error) {
+    console.log(error, ' TF IN HERE?');
     throw error.message;
   }
 
@@ -58,10 +59,10 @@ export async function deleteTranslation(locale: string, key: string) {
   }
 }
 
-export async function updateTranslationValue({ namespace, key, newValue, locale }: { namespace: string; key: string; newValue: string; locale: string; }): Promise<Translation> {
+export async function updateTranslation({ namespace, key, value, locale }: { namespace: string; key: string; value: string; locale: string; }): Promise<Translation> {
   const { error, data } = await supabaseClient
     .from('translations')
-    .update({ namespace, locale, key, value: newValue })
+    .update({ namespace, locale, key, value })
     .eq('namespace', namespace)
     .eq('locale', locale)
     .eq('key', key)
@@ -80,7 +81,7 @@ export async function updateTranslationValue({ namespace, key, newValue, locale 
   };
 }
 
-export async function updateAllTranslationsByKey({ namespace, key, newValue, locale }: { namespace: string; key: string; newValue: string; locale: string; }) {
+export async function updateTranslationsByKey({ namespace, key, newValue, locale }: { namespace: string; key: string; newValue: string; locale: string; }) {
   const rows = [{ namespace, locale, key, value: newValue }];
 
   const allTranslations = await createTranslationsForAll({ locale, text: newValue });

@@ -15,6 +15,8 @@ export const KeyTablesWrapper = ({
     queryFn: () => translationsApi.getAllForNameSpace(activeNamespace),
   });
 
+  console.log(translations)
+
   if (translationsLoading) {
     return "Loading..";
   }

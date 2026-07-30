@@ -36,6 +36,7 @@ export async function deleteNamespace(namespace: string) {
     .eq('name', namespace);
 
   if (error) {
+    console.log(error);
     throw error;
   }
 }

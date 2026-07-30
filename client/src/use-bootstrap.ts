@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { localesApi } from './entities/locales/api';
 import { namespacesApi } from './entities/namespaces/api';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useAppQuery } from './shared/hooks/use-app-query';
 
 export const useBootstrap = () => {
@@ -11,12 +11,6 @@ export const useBootstrap = () => {
     queryKey: ["namespaces"],
     queryFn: namespacesApi.getAll,
   });
-
-  useEffect(() => {
-    if (!namespaces) return;
-
-    setActiveNs(namespaces[0].name);
-  }, [namespaces]);
 
   const { data: locales, isLoading: localesLoading } = useQuery({
     queryKey: ["locales"],

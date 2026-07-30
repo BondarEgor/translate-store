@@ -10,7 +10,11 @@ export const useAppQuery = <
 >(
   options: UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>
 ) => {
-  const query = useQuery(options);
+  const { staleTime = Infinity, ...restOptions } = options;
+  const query = useQuery({
+    ...restOptions,
+    staleTime
+  });
 
   const showErrorToast = (error: unknown) => toast.error(error instanceof Error ? error.message : 'Something went wrong');
 

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, Button, Flex, ScrollArea, Text, TextField } from "@radix-ui/themes";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import type { ApiResult, RenameKeyPayload, Translation } from "@/api";
@@ -32,6 +32,18 @@ export const KeysTable = ({
 
     return next;
   });
+
+  useEffect(() => {
+    setTranslations(() => {
+      const next = new Map();
+
+      initTranslations?.forEach((translation) => {
+        next.set(createTranslationKey(translation.key, translation.locale), translation);
+      });
+
+      return next;
+    });
+  }, [initTranslations]);
 
   const [selectedLocale, setSelectedLocale] = useState("ru");
   const [query, setQuery] = useState("");
@@ -169,7 +181,9 @@ export const KeysTable = ({
           ))}
         </ScrollArea>
       ) : (
-        "Empty"
+        <Flex flexGrow="1" justify={"center"} align={"center"}>
+          "Empty"
+        </Flex>
       )}
 
       <KeysTableAddBar

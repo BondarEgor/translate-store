@@ -11,6 +11,8 @@ export const googleTranslate: Provider = async (text, from, to) => {
     `&tl=${encodeURIComponent(toProviderCode(to))}` +
     `&q=${encodeURIComponent(text)}`;
 
+  return Promise.resolve(text);
+
   const res = await fetch(url, {
     signal: AbortSignal.timeout(8000),
   });

@@ -46,7 +46,10 @@ export function AppSidebar({
       >
         <Box style={{ minWidth: 0 }}>
           <Text as="div" size="2" weight="bold" truncate>
-            Translate Store
+            Translate{" "}
+            <Text as="span" size="2" weight="bold" color="green">
+              Store
+            </Text>
           </Text>
           <Text as="div" size="1" color="gray">
             all keys, no mess

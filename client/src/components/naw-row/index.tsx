@@ -15,8 +15,7 @@ export const NavRow = ({
     <Flex align="center" gap="1" px="1">
       <Button
         variant={active ? "soft" : "ghost"}
-        color="gray"
-        highContrast={active}
+        color={active ? undefined : "gray"}
         onClick={onClick}
         style={{
           flex: 1,

@@ -23,7 +23,7 @@ export const AddTranslation = ({ queryItem, disabled, onAddSuccess }: Props) => 
   });
 
   return (
-    <Button highContrast loading={isPending} disabled={disabled} onClick={() => mutate()}>
+    <Button loading={isPending} disabled={disabled} onClick={() => mutate()}>
       <PlusIcon />
       Добавить ключ
     </Button>

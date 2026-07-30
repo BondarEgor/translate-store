@@ -3,6 +3,7 @@ import { Box, Flex, ScrollArea, Text, TextField } from "@radix-ui/themes";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import type { Translation } from "@/api";
 import { KeysTableRow } from "@/shared/ui/keys-table-row";
+import { EmptyState } from "@/shared/ui/empty-state";
 import { KEYS_TABLE_BORDER } from "@/shared/constants/keys-table";
 import { KeysTableAddBar } from "@/widgets/keys-table-add-bar";
 import { Locales } from "@/entities/locales/types";
@@ -154,9 +155,7 @@ export const KeysTable = ({
           ))}
         </ScrollArea>
       ) : (
-        <Flex flexGrow="1" justify={"center"} align={"center"}>
-          "Empty"
-        </Flex>
+        <EmptyState text="Ключей пока нет" />
       )}
 
       <KeysTableAddBar

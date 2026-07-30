@@ -40,30 +40,32 @@ export const TranslationValueCell = ({ value, onSave }: Props) => {
   }
 
   return (
-    <div>
-      <TextArea
-        value={draft}
-        onBlur={() => {
-          const next = draft.trim();
+    <TextArea
+      value={draft}
+      size="1"
+      rows={1}
+      resize="none"
+      className="value-edit"
+      onBlur={() => {
+        const next = draft.trim();
 
-          if (next && next !== value) onSave(next);
+        if (next && next !== value) onSave(next);
 
+        setEditing(false);
+      }}
+      onKeyDown={(e) => {
+        if (e.key === "Escape") {
+          setDraft(value ?? "");
           setEditing(false);
-        }}
-        onKeyDown={(e) => {
-          if (e.key === "Escape") {
-            setDraft(value ?? "");
-            setEditing(false);
-          }
+        }
 
-          if (e.key === "Enter" && !e.shiftKey) {
-            e.preventDefault();
-            e.currentTarget.blur();
-          }
-        }}
-        autoFocus
-        onChange={(e) => setDraft(e.target.value)}
-      />
-    </div>
+        if (e.key === "Enter" && !e.shiftKey) {
+          e.preventDefault();
+          e.currentTarget.blur();
+        }
+      }}
+      autoFocus
+      onChange={(e) => setDraft(e.target.value)}
+    />
   );
 };

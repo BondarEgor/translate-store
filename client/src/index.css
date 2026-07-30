@@ -15,6 +15,20 @@ body {
   background: var(--gray-a2);
 }
 
+.row-hover,
+.rt-BaseButton {
+  transition:
+    background-color 120ms ease,
+    color 120ms ease,
+    border-color 120ms ease;
+}
+
+.value-edit,
+.value-edit textarea {
+  height: 36px;
+  min-height: 36px;
+}
+
 .app-shell {
   height: 100vh;
   height: 100dvh;

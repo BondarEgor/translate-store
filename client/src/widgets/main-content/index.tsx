@@ -1,4 +1,5 @@
 import { KeyTablesWrapper } from "./wrapper";
+import { EmptyState } from "@/shared/ui/empty-state";
 import { Locales } from "@/entities/locales/types";
 
 export const MainContent = ({
@@ -10,7 +11,9 @@ export const MainContent = ({
   activeLocale: string | null;
   locales: Locales;
 }) => {
-  if (!activeNamespace || !activeLocale) return "Empty";
+  if (!activeNamespace || !activeLocale) {
+    return <EmptyState text="Выберите таблицу и язык" />;
+  }
 
   return (
     <KeyTablesWrapper

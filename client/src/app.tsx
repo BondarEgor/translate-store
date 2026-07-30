@@ -3,6 +3,7 @@ import { Flex, IconButton, Text, Theme } from "@radix-ui/themes";
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { Toaster } from "sonner";
 import { AppSidebar } from "@/components/app-sidebar";
+import { AppSkeleton } from "@/shared/ui/app-skeleton";
 import { useBootstrap } from "./use-bootstrap";
 import { MainContent } from "./widgets/main-content";
 
@@ -20,7 +21,13 @@ export function App() {
     isAppLoading,
   } = useBootstrap();
 
-  if (isAppLoading) return null;
+  if (isAppLoading) {
+    return (
+      <Theme appearance="dark" accentColor="green" grayColor="gray">
+        <AppSkeleton />
+      </Theme>
+    );
+  }
 
   return (
     <Theme appearance="dark" accentColor="green" grayColor="gray">
@@ -55,7 +62,7 @@ export function App() {
             </IconButton>
 
             <Text size="2" color="gray">
-              {`таблицы / ${activeNs} / ${activeLocale}`}
+              {["таблицы", activeNs, activeLocale].filter(Boolean).join(" / ")}
             </Text>
           </Flex>
 

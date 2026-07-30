@@ -10,7 +10,7 @@ type Props = {
   total: number;
   missing: number;
   locale: string;
-  existingKeys: string[];
+  existingKeys: Set<string>;
   onAdd: (translation: Translation) => void;
 };
 
@@ -25,17 +25,25 @@ export const KeysTableAddBar = ({
   const [key, setKey] = useState("");
   const [value, setValue] = useState("");
 
-  const isDuplicate = existingKeys.includes(key.trim());
+  const isDuplicate = existingKeys.has(key.trim());
   const isEmpty = !key.trim() || !value.trim();
 
   const onEnter = (event: React.KeyboardEvent) => event.key === "Enter";
 
   return (
-    <Flex align="center" gap="2" p="3" flexShrink="0" style={{ borderTop: KEYS_TABLE_BORDER }}>
+    <Flex
+      align="center"
+      gap="2"
+      p="3"
+      flexShrink="0"
+      className="add-bar"
+      style={{ borderTop: KEYS_TABLE_BORDER }}
+    >
       <TextField.Root
         placeholder="новый.ключ.путь"
         color={isDuplicate ? "red" : undefined}
-        style={{ width: 224, flexShrink: 0, ...KEYS_TABLE_MONO }}
+        className="add-bar-key"
+        style={{ ...KEYS_TABLE_MONO }}
         value={key}
         onChange={(event) => setKey(event.target.value)}
         onKeyDown={onEnter}
@@ -58,7 +66,7 @@ export const KeysTableAddBar = ({
           locale,
         }}
       />
-      <Text size="1" color="gray" style={{ flexShrink: 0 }}>
+      <Text size="1" color="gray" className="add-bar-stats" style={{ flexShrink: 0 }}>
         {total} {plural(total, "ключ", "ключа", "ключей")} · {locale.toUpperCase()}:{" "}
         {missing ? `ждут ${missing}` : "полный"}
       </Text>

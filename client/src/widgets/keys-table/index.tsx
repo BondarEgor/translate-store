@@ -133,7 +133,7 @@ export const KeysTable = ({
           placeholder="Фильтр по ключу или значению"
           value={query}
           onChange={(event) => setQuery(event.target.value)}
-          style={{ width: 260 }}
+          className="keys-search"
         >
           <TextField.Slot>
             <MagnifyingGlassIcon />
@@ -163,7 +163,7 @@ export const KeysTable = ({
         total={translations.size}
         missing={0}
         locale={defaultLocale}
-        existingKeys={Array.from(new Set(Array.from(translations.values()).map(({ key }) => key)))}
+        existingKeys={new Set(Array.from(translations.values()).map(({ key }) => key))}
         onAdd={onAddKey}
       />
     </>

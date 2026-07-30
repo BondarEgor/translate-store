@@ -35,7 +35,7 @@ export function AppSidebar({
   );
 
   return (
-    <Flex direction="column" width="264px" flexShrink="0" style={{ borderRight: BORDER }}>
+    <Flex direction="column" className="app-sidebar">
       <Flex
         align="center"
         gap="3"

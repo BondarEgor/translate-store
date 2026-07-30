@@ -163,6 +163,7 @@ export const KeysTable = ({
         total={translations.size}
         missing={0}
         locale={defaultLocale}
+        existingKeys={Array.from(new Set(Array.from(translations.values()).map(({ key }) => key)))}
         onAdd={onAddKey}
       />
     </>

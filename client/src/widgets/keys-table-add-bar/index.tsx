@@ -10,12 +10,23 @@ type Props = {
   total: number;
   missing: number;
   locale: string;
+  existingKeys: string[];
   onAdd: (translation: Translation) => void;
 };
 
-export const KeysTableAddBar = ({ namespace, total, missing, locale, onAdd }: Props) => {
+export const KeysTableAddBar = ({
+  namespace,
+  total,
+  missing,
+  locale,
+  existingKeys,
+  onAdd,
+}: Props) => {
   const [key, setKey] = useState("");
   const [value, setValue] = useState("");
+
+  const isDuplicate = existingKeys.includes(key.trim());
+  const isEmpty = !key.trim() || !value.trim();
 
   const onEnter = (event: React.KeyboardEvent) => event.key === "Enter";
 
@@ -23,6 +34,7 @@ export const KeysTableAddBar = ({ namespace, total, missing, locale, onAdd }: Pr
     <Flex align="center" gap="2" p="3" flexShrink="0" style={{ borderTop: KEYS_TABLE_BORDER }}>
       <TextField.Root
         placeholder="новый.ключ.путь"
+        color={isDuplicate ? "red" : undefined}
         style={{ width: 224, flexShrink: 0, ...KEYS_TABLE_MONO }}
         value={key}
         onChange={(event) => setKey(event.target.value)}
@@ -37,11 +49,11 @@ export const KeysTableAddBar = ({ namespace, total, missing, locale, onAdd }: Pr
       />
 
       <AddTranslation
-        disabled={false}
+        disabled={isEmpty || isDuplicate}
         onAddSuccess={onAdd}
         queryItem={{
-          key,
-          value,
+          key: key.trim(),
+          value: value.trim(),
           namespace,
           locale,
         }}

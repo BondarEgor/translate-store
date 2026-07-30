@@ -16,6 +16,7 @@ export const KeyTablesWrapper = ({
   const { data: translations, isLoading: translationsLoading } = useAppQuery({
     queryKey: ["translations", activeNamespace],
     queryFn: () => translationsApi.getAllForNameSpace(activeNamespace),
+    placeholderData: (previous) => previous,
   });
 
   if (translationsLoading) {

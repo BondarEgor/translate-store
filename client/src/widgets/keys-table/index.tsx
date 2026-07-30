@@ -107,7 +107,7 @@ export const KeysTable = ({
 
   const translationsForLocale = keys.map((key) => {
     return (
-      translations.get(createTranslationKey(activeLocale, key)) ?? {
+      translations.get(createTranslationKey(key, activeLocale)) ?? {
         key,
         locale: activeLocale,
         namespace: activeNamespace ?? "",

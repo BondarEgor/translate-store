@@ -103,9 +103,18 @@ export const KeysTable = ({
     );
   }
 
-  const translationsForLocale = Array.from(translations.values()).filter(
-    ({ locale }) => locale === activeLocale,
-  );
+  const keys = Array.from(new Set(Array.from(translations.values()).map(({ key }) => key)));
+
+  const translationsForLocale = keys.map((key) => {
+    return (
+      translations.get(createTranslationKey(activeLocale, key)) ?? {
+        key,
+        locale: activeLocale,
+        namespace: activeNamespace ?? "",
+        value: "",
+      }
+    );
+  });
 
   const searchedTranslations = translationsForLocale.filter((translation) => {
     const lowerCasedQuery = query.toLowerCase();
@@ -149,7 +158,10 @@ export const KeysTable = ({
               onUpdateTranslation={onUpdateTranslation}
               key={`${translation.key}-${translation.locale}`}
               row={translation}
-              defaultLocale={activeLocale}
+              defaultLocale={defaultLocale}
+              pullValue={
+                translations.get(createTranslationKey(translation.key, defaultLocale))?.value
+              }
               onDeleteTranslation={onDeleteTranslation}
             />
           ))}
@@ -163,7 +175,7 @@ export const KeysTable = ({
         total={translations.size}
         missing={0}
         locale={defaultLocale}
-        existingKeys={new Set(Array.from(translations.values()).map(({ key }) => key))}
+        existingKeys={new Set(keys)}
         onAdd={onAddKey}
       />
     </>

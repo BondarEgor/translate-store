@@ -1,12 +1,15 @@
 import { localesApi } from "@/entities/locales/api";
 import { LOCALE_RU } from "@/constants/locales";
 import { AddNewSidebarEntityItem } from "@/shared/ui/add-new-sidebar-entity";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const AddNewLanguage = ({ onAddLocale }: { onAddLocale: (language: string) => void }) => {
+  const queryClient = useQueryClient();
+
   const { mutate } = useMutation({
     mutationFn: localesApi.create,
     onMutate: (locale) => onAddLocale(locale),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["locales"] }),
     mutationKey: ["add language"],
   });
   return (

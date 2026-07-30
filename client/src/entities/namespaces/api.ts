@@ -1,5 +1,5 @@
-import { NetworkService } from '@/shared/services/network-service';
-import { Namespace, Namespaces } from './types';
+import { NetworkService } from "@/shared/services/network-service";
+import { Namespace, Namespaces } from "./types";
 
 const api = new NetworkService();
 
@@ -8,9 +8,8 @@ export const namespacesApi = {
 
   create: (namespace: string) =>
     api.post<Namespace>("/api/namespaces", {
-      namespace
+      namespace,
     }),
 
-  remove: (namespace: string) =>
-    api.delete<void>(`/api/namespaces/${namespace}`),
+  remove: (namespace: string) => api.delete<void>(`/api/namespaces/${namespace}`),
 };

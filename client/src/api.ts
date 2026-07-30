@@ -99,12 +99,12 @@ export interface DeleteNamespacePayload {
 async function request<T extends ApiResult = ApiResult>(
   method: string,
   url: string,
-  body?: unknown
+  body?: unknown,
 ): Promise<T> {
   const res = await fetch(url, {
     method,
-    headers: body ? { 'Content-Type': 'application/json' } : undefined,
-    body: body ? JSON.stringify(body) : undefined
+    headers: body ? { "Content-Type": "application/json" } : undefined,
+    body: body ? JSON.stringify(body) : undefined,
   });
 
   if (!res.ok) {
@@ -117,21 +117,21 @@ async function request<T extends ApiResult = ApiResult>(
 }
 
 export const api = {
-  state: () => request<AppState>('GET', '/api/state'),
-  keys: () => request<KeysData>('GET', '/api/keys'),
-  suggestions: () => request<Suggestions>('GET', '/api/suggestions'),
+  state: () => request<AppState>("GET", "/api/state"),
+  keys: () => request<KeysData>("GET", "/api/keys"),
+  suggestions: () => request<Suggestions>("GET", "/api/suggestions"),
 
-  addKey: (d: AddKeyPayload) => request('POST', '/api/keys', d),
-  updateKey: (d: UpdateKeyPayload) => request('PUT', '/api/keys', d),
-  deleteKey: (d: DeleteKeyPayload) => request('DELETE', '/api/keys', d),
-  renameKey: (d: RenameKeyPayload) => request('POST', '/api/keys/rename', d),
+  addKey: (d: AddKeyPayload) => request("POST", "/api/keys", d),
+  updateKey: (d: UpdateKeyPayload) => request("PUT", "/api/keys", d),
+  deleteKey: (d: DeleteKeyPayload) => request("DELETE", "/api/keys", d),
+  renameKey: (d: RenameKeyPayload) => request("POST", "/api/keys/rename", d),
 
-  addLocale: (d: AddLocalePayload) => request('POST', '/api/locales', d),
-  removeLocale: (d: { code: string; }) => request('DELETE', '/api/locales', d),
+  addLocale: (d: AddLocalePayload) => request("POST", "/api/locales", d),
+  removeLocale: (d: { code: string }) => request("DELETE", "/api/locales", d),
 
-  addNamespace: (d: AddNamespacePayload) => request('POST', '/api/namespaces', d),
-  renameNamespace: (d: RenameNamespacePayload) => request('PUT', '/api/namespaces', d),
-  deleteNamespace: (d: DeleteNamespacePayload) => request('DELETE', '/api/namespaces', d),
+  addNamespace: (d: AddNamespacePayload) => request("POST", "/api/namespaces", d),
+  renameNamespace: (d: RenameNamespacePayload) => request("PUT", "/api/namespaces", d),
+  deleteNamespace: (d: DeleteNamespacePayload) => request("DELETE", "/api/namespaces", d),
 
-  sync: () => request('POST', '/api/sync')
+  sync: () => request("POST", "/api/sync"),
 } as const;

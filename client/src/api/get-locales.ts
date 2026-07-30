@@ -1,2 +1,1 @@
-export const getLocales = async () => {
-}
+export const getLocales = async () => {};

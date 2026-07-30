@@ -3,3 +3,5 @@ dist
 .vite
 package-lock.json
 **/package-lock.json
+storybook-static
+chromatic-build

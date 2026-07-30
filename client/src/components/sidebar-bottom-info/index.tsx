@@ -15,9 +15,9 @@ export const SidebarBottomInfo = ({ stats }: { stats: Stats }) => {
     >
       <GlobeIcon />
       <Text size="1" color="gray">
-        {stats.tables} {plural(stats.tables, "таблица", "таблицы", "таблиц")} ·{" "}
-        {stats.languages} {plural(stats.languages, "язык", "языка", "языков")} ·{" "}
-        {stats.keys} {plural(stats.keys, "ключ", "ключа", "ключей")}
+        {stats.tables} {plural(stats.tables, "таблица", "таблицы", "таблиц")} · {stats.languages}{" "}
+        {plural(stats.languages, "язык", "языка", "языков")} · {stats.keys}{" "}
+        {plural(stats.keys, "ключ", "ключа", "ключей")}
         {stats.missing > 0 && ` · ждут ${stats.missing}`}
       </Text>
     </Flex>

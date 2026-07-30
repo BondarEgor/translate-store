@@ -1,9 +1,8 @@
 import { translationsApi } from "@/entities/translations/api";
 import { Translation } from "@/entities/translations/types";
+import { useAppMutation } from "@/shared/hooks/use-app-mutation";
 import { PlusIcon } from "@radix-ui/react-icons";
 import { Button } from "@radix-ui/themes";
-import { useMutation } from "@tanstack/react-query";
-import { toast } from "sonner";
 
 type Props = {
   queryItem: {
@@ -17,17 +16,14 @@ type Props = {
 };
 
 export const AddTranslation = ({ queryItem, disabled, onAddSuccess }: Props) => {
-  const { mutate, isPending } = useMutation({
+  const { mutate, isPending } = useAppMutation({
+    onMutate: () => onAddSuccess(queryItem),
     mutationFn: () => translationsApi.create(queryItem),
     onSuccess: onAddSuccess,
-    onError: (e) => {
-      toast(e.message);
-    },
-    mutationKey: ["add key value", queryItem],
   });
 
   return (
-  <Button highContrast loading={isPending} disabled={disabled} onClick={() => mutate()}>
+    <Button highContrast loading={isPending} disabled={disabled} onClick={() => mutate()}>
       <PlusIcon />
       Добавить ключ
     </Button>

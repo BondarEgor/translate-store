@@ -11,6 +11,6 @@ export const namespacesApi = {
       namespace
     }),
 
-  remove: (code: string) =>
-    api.delete<void>(`/api/locales/${code}`),
+  remove: (namespace: string) =>
+    api.delete<void>(`/api/namespaces/${namespace}`),
 };

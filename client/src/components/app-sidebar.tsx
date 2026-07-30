@@ -1,10 +1,7 @@
 import { useState } from "react";
 import { Box, Flex, ScrollArea, Separator, Text } from "@radix-ui/themes";
 import { GlobeIcon } from "@radix-ui/react-icons";
-import { type AppState } from "@/api";
 import { ConfirmDialog } from "@/components/confirm-dialog";
-import { AddNamespaceDialog } from "./add-namespace-dialog";
-import { SidebarBottomInfo } from "./sidebar-bottom-info";
 import { AppSidebarEntity } from "../widgets/app-sidebar-entity";
 import { DeleteLanguage } from "@/features/delete-language";
 import { DeleteNamespace } from "@/features/delete-namespace";
@@ -12,10 +9,9 @@ import { AddNewLanguage } from "@/features/add-language";
 import { AddNamespace } from "@/features/add-namespace";
 import { Namespaces } from "@/entities/namespaces/types";
 import { Locales } from "@/entities/locales/types";
+import { noop } from "@/shared/lib/noop";
 
 const BORDER = "1px solid var(--gray-a4)";
-
-type NsDialog = { mode: "add" } | { mode: "edit"; name: string } | null;
 
 type Props = {
   locales: Locales;
@@ -23,8 +19,7 @@ type Props = {
   onSelectNs: (ns: string) => void;
 };
 
-export function AppSidebar({ locales, namespaces }: Props) {
-  const [nsDialog, setNsDialog] = useState<NsDialog>(null);
+export function AppSidebar({ locales, onSelectNs, namespaces }: Props) {
   const [removeLocale, setRemoveLocale] = useState<string | null>(null);
 
   const sortedLocalesByDefault = locales.sort((a, b) => {
@@ -63,13 +58,15 @@ export function AppSidebar({ locales, namespaces }: Props) {
           </Text>
         </Box>
       </Flex>
+
       <ScrollArea type="auto" style={{ flexGrow: 1, minHeight: 0 }}>
         <Box py="3">
           <AppSidebarEntity
-            renderAddItemNode={({ onAddEntity }) => <AddNamespace onAddSuccess={onAddEntity} />}
+            renderAddItemNode={({ onAddEntity }) => <AddNamespace onAddNamespace={onAddEntity} />}
             renderDeleteNode={({ name, onDeleteEntity }) => (
-              <DeleteNamespace namespace={name} onDeleteSuccess={onDeleteEntity} />
+              <DeleteNamespace namespace={name} onDeleteNamespace={onDeleteEntity} />
             )}
+            onSelect={onSelectNs}
             label="Таблицы"
             items={namespaces}
           />
@@ -86,13 +83,12 @@ export function AppSidebar({ locales, namespaces }: Props) {
               name: locale.code,
               isDefault: locale.isDefault,
             }))}
+            onSelect={noop}
           />
         </Box>
       </ScrollArea>
 
       {/* <SidebarBottomInfo stats={s} /> */}
-
-      <AddNamespaceDialog dialog={nsDialog} onClose={() => setNsDialog(null)} actions={{}} />
 
       <ConfirmDialog
         open={removeLocale !== null}

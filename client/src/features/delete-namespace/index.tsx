@@ -3,15 +3,14 @@ import { DeleteEntityButton } from "@/shared/ui/delete-sidebar-entity";
 import { useMutation } from "@tanstack/react-query";
 
 type Props = {
-  onDeleteSuccess: (language: string) => void;
+  onDeleteNamespace: (language: string) => void;
   namespace: string;
 };
 
-export const DeleteNamespace = ({ namespace, onDeleteSuccess }: Props) => {
+export const DeleteNamespace = ({ namespace, onDeleteNamespace }: Props) => {
   const { mutate } = useMutation({
     mutationFn: () => namespacesApi.remove(namespace),
-    onSuccess: () => onDeleteSuccess(namespace),
-    mutationKey: ["delete namespace"],
+    onMutate: () => onDeleteNamespace(namespace),
   });
 
   return <DeleteEntityButton onConfirm={mutate} />;

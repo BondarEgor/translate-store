@@ -9,19 +9,24 @@ import { Locales } from "@/entities/locales/types";
 import { Translations } from "@/entities/translations/types";
 
 type Props = {
-  translations: Translation[];
-  ns: string | null;
+  translations?: Translations;
+  activeNamespace: string | null;
   locales: Locales;
   onRenameKey: (payload: RenameKeyPayload) => Promise<ApiResult>;
 };
 
 const createTranslationKey = (key: string, locale: string) => `${locale}_${key}`;
 
-export const KeysTable = ({ translations: initTranslations, ns, locales, onRenameKey }: Props) => {
+export const KeysTable = ({
+  translations: initTranslations,
+  activeNamespace,
+  locales,
+  onRenameKey,
+}: Props) => {
   const [translations, setTranslations] = useState<Map<string, Translation>>(() => {
     const next = new Map();
 
-    initTranslations.forEach((translation) => {
+    initTranslations?.forEach((translation) => {
       next.set(createTranslationKey(translation.key, translation.locale), translation);
     });
 
@@ -78,7 +83,7 @@ export const KeysTable = ({ translations: initTranslations, ns, locales, onRenam
     });
   };
 
-  if (!ns) {
+  if (!activeNamespace) {
     return (
       <Flex flexGrow="1" align="center" justify="center" p="8">
         <Text size="2" color="gray" align="center">
@@ -149,22 +154,26 @@ export const KeysTable = ({ translations: initTranslations, ns, locales, onRenam
         </TextField.Root>
       </Flex>
 
-      <ScrollArea type="auto" style={{ flexGrow: 1, minHeight: 0 }}>
-        {searchedTranslations.map((translation) => (
-          <KeysTableRow
-            namespace={ns}
-            onUpdateTranslation={onUpdateTranslation}
-            key={`${translation.key}-${translation.locale}`}
-            row={translation}
-            defaultLocale={selectedLocale}
-            onDeleteTranslation={onDeleteTranslation}
-            onRename={onRenameKey}
-          />
-        ))}
-      </ScrollArea>
+      {searchedTranslations.length > 0 ? (
+        <ScrollArea type="auto" style={{ flexGrow: 1, minHeight: 0 }}>
+          {searchedTranslations.map((translation) => (
+            <KeysTableRow
+              namespace={activeNamespace}
+              onUpdateTranslation={onUpdateTranslation}
+              key={`${translation.key}-${translation.locale}`}
+              row={translation}
+              defaultLocale={selectedLocale}
+              onDeleteTranslation={onDeleteTranslation}
+              onRename={onRenameKey}
+            />
+          ))}
+        </ScrollArea>
+      ) : (
+        "Empty"
+      )}
 
       <KeysTableAddBar
-        namespace={ns}
+        namespace={activeNamespace}
         total={translations.size}
         missing={0}
         locale={selectedLocale}

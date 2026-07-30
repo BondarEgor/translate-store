@@ -3,16 +3,13 @@ import { AddNewSidebarEntityItem } from "@/shared/ui/add-new-sidebar-entity";
 import { useMutation } from "@tanstack/react-query";
 
 export const AddNamespace = ({
-  onAddSuccess,
+  onAddNamespace,
 }: {
-  onAddSuccess: (newNamespace: string) => void;
+  onAddNamespace: (newNamespace: string) => void;
 }) => {
   const { mutate } = useMutation({
+    onMutate: (namespace) => onAddNamespace(namespace),
     mutationFn: namespacesApi.create,
-    onSuccess: (newNamespace) => {
-      onAddSuccess(newNamespace.name);
-    },
-    mutationKey: ["add namespace"],
   });
 
   return (

@@ -8,7 +8,7 @@ import { toast } from "sonner";
 type Props = {
   items: { name: string; isDefault?: boolean }[];
   label: string;
-
+  onSelect: (value: string) => void;
   renderDeleteNode: (node: {
     name: string;
     onDeleteEntity: (deletedName: string) => void;
@@ -20,6 +20,7 @@ type Props = {
 export const AppSidebarEntity = ({
   renderAddItemNode,
   renderDeleteNode,
+  onSelect,
   label,
   items: initItems,
 }: Props) => {
@@ -45,7 +46,6 @@ export const AppSidebarEntity = ({
 
   const onAddEntity = (name: string) => {
     if (items.has(name.toLowerCase())) {
-      console.log('INSIDE?')
       toast.error("Already exists");
       return;
     }
@@ -63,6 +63,7 @@ export const AppSidebarEntity = ({
     <NavSection label={label}>
       {Array.from(items.values()).map((item) => (
         <NavRow
+          onClick={() => onSelect(item.name)}
           key={item.name}
           action={
             item.isDefault ? (

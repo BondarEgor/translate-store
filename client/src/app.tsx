@@ -1,27 +1,27 @@
-import { useState } from "react";
+import { act, useState } from "react";
 import { Flex, IconButton, Text, Theme } from "@radix-ui/themes";
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { Toaster } from "sonner";
 import { AppSidebar } from "@/components/app-sidebar";
-import { KeysTable } from "@/widgets/keys-table";
 import { useBootstrap } from "./use-bootstrap";
-import { RenameKeyPayload, ApiResult } from "./api";
+import { MainContent } from "./widgets/main-content";
 
 const BORDER = "1px solid var(--gray-a4)";
 
 export function App() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
-
-  const { namespaces = [], locales = [], translations = [], isAppLoading } = useBootstrap();
+  const { namespaces = [], onSelectNs, locales = [], activeNs, isAppLoading } = useBootstrap();
 
   if (isAppLoading) return null;
 
+  console.log(activeNs, " tf");
   return (
     <Theme appearance="dark" accentColor="green" grayColor="gray">
       <Flex height="100vh">
         {sidebarOpen && (
-          <AppSidebar locales={locales} namespaces={namespaces} onSelectNs={() => {}} />
+          <AppSidebar locales={locales} namespaces={namespaces} onSelectNs={onSelectNs} />
         )}
+
         <Flex direction="column" flexGrow="1" style={{ minWidth: 0 }}>
           <Flex
             align="center"
@@ -39,18 +39,13 @@ export function App() {
             >
               <HamburgerMenuIcon />
             </IconButton>
+
             <Text size="2" color="gray">
-              таблицы / test
+              {`таблицы / ${activeNs}`}
             </Text>
           </Flex>
-          <KeysTable
-            locales={locales}
-            translations={translations}
-            ns={"test"}
-            onRenameKey={function (payload: RenameKeyPayload): Promise<ApiResult> {
-              throw new Error("Function not implemented.");
-            }}
-          />
+
+          <MainContent activeNamespace={activeNs} locales={locales} />
         </Flex>
       </Flex>
 

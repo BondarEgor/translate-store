@@ -11,7 +11,8 @@
     "start": "vite preview --host --port ${PORT:-4173}",
     "typecheck": "tsc -b",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "chromatic": "chromatic --exit-zero-on-changes"
   },
   "dependencies": {
     "@radix-ui/react-icons": "^1.3.2",
@@ -23,17 +24,18 @@
     "ws": "^8.21.1"
   },
   "devDependencies": {
+    "@chromatic-com/storybook": "^5.2.1",
+    "@storybook/react-vite": "^10.5.5",
     "@types/node": "^20.17.0",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
     "@types/ws": "^8.18.0",
     "@vitejs/plugin-react": "^5.0.0",
+    "chromatic": "^16.10.1",
     "playwright": "^1.62.0",
+    "storybook": "^10.5.5",
     "tsx": "^4.19.2",
     "typescript": "^5.8.3",
-    "vite": "^7.0.0",
-    "storybook": "^10.5.5",
-    "@storybook/react-vite": "^10.5.5",
-    "@chromatic-com/storybook": "^5.2.1"
+    "vite": "^7.0.0"
   }
 }

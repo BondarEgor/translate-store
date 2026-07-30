@@ -50,6 +50,17 @@ export const TranslationValueCell = ({ value, onSave }: Props) => {
 
           setEditing(false);
         }}
+        onKeyDown={(e) => {
+          if (e.key === "Escape") {
+            setDraft(value ?? "");
+            setEditing(false);
+          }
+
+          if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            e.currentTarget.blur();
+          }
+        }}
         autoFocus
         onChange={(e) => setDraft(e.target.value)}
       />

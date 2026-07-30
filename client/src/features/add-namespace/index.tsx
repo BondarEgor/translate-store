@@ -1,7 +1,7 @@
 import { namespacesApi } from "@/entities/namespaces/api";
 import { Namespace } from "@/entities/namespaces/types";
 import { AddNewSidebarEntityItem } from "@/shared/ui/add-new-sidebar-entity";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const AddNamespace = ({
   onAddNamespace,
@@ -10,10 +10,15 @@ export const AddNamespace = ({
   onAddNamespace: (newNamespace: string) => void;
   onSuccess: (namespace: Namespace) => void;
 }) => {
+  const queryClient = useQueryClient();
+
   const { mutate } = useMutation({
     onMutate: (namespace) => onAddNamespace(namespace),
     mutationFn: namespacesApi.create,
-    onSuccess,
+    onSuccess: (namespace) => {
+      queryClient.invalidateQueries({ queryKey: ["namespaces"] });
+      onSuccess(namespace);
+    },
   });
 
   return (

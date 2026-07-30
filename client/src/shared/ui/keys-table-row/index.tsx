@@ -1,14 +1,16 @@
-import { Box, Button, Flex, Grid, Text, Tooltip } from "@radix-ui/themes";
+import { Box, Flex, Grid, Text, Tooltip } from "@radix-ui/themes";
 import type { Translation } from "@/api";
 import { TranslationKeyName } from "@/shared/ui/translation-key-name";
 import { KEYS_TABLE_BORDER, KEYS_TABLE_MONO } from "@/shared/constants/keys-table";
 import { DeleteTranslation } from "@/features/delete-translation";
 import { EditTranslation } from "@/features/edit-translation";
+import { PullTranslation } from "@/features/pull-translation";
 
 type Props = {
   row: Translation;
   defaultLocale: string;
   namespace: string;
+  pullValue?: string;
   onDeleteTranslation: (locale: string, key: string) => void;
   onUpdateTranslation: (updated: Translation) => void;
 };
@@ -17,6 +19,7 @@ export const KeysTableRow = ({
   namespace,
   row,
   defaultLocale,
+  pullValue,
   onUpdateTranslation,
   onDeleteTranslation,
 }: Props) => {
@@ -73,9 +76,12 @@ export const KeysTableRow = ({
             <Text size="2" color="gray">
               Нет перевода
             </Text>
-            <Button size="1" variant="outline" color="gray">
-              Подтянуть
-            </Button>
+            <PullTranslation
+              namespace={namespace}
+              sourceLocale={defaultLocale}
+              keyName={row.key}
+              value={pullValue}
+            />
           </Flex>
         ) : (
           <Tooltip content="Правится через основной язык">

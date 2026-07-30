@@ -9,8 +9,8 @@ export const TableSkeleton = ({ rows = 6 }: { rows?: number }) => (
         align="center"
         gap="3"
         px="4"
-        py="3"
-        style={{ borderBottom: KEYS_TABLE_BORDER }}
+        flexShrink="0"
+        style={{ height: 61, borderBottom: KEYS_TABLE_BORDER }}
       >
         <Skeleton style={{ width: 120, height: 16 }} />
         <Skeleton style={{ width: "40%", height: 16 }} />

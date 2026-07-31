@@ -1,5 +1,7 @@
 import js from "@eslint/js";
 import eslintConfigPrettier from "eslint-config-prettier";
+import reactHooks from "eslint-plugin-react-hooks";
+import reactRefresh from "eslint-plugin-react-refresh";
 import unusedImports from "eslint-plugin-unused-imports";
 import globals from "globals";
 import tseslint from "typescript-eslint";
@@ -16,19 +18,29 @@ const unusedVarsRule = [
 
 export default tseslint.config(
   {
-    ignores: ["**/node_modules/**", "**/dist/**", "client/**", "**/types/database.types.ts"],
+    ignores: [
+      "node_modules/**",
+      "dist/**",
+      ".vite/**",
+      "storybook-static/**",
+      "chromatic-build/**",
+    ],
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {
-    files: ["server/**/*.ts"],
+    files: ["**/*.{ts,tsx}"],
     plugins: {
+      "react-hooks": reactHooks,
+      "react-refresh": reactRefresh,
       "unused-imports": unusedImports,
     },
     languageOptions: {
-      globals: globals.node,
+      globals: globals.browser,
     },
     rules: {
+      ...reactHooks.configs.recommended.rules,
+      "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
       "no-unused-vars": "off",
       "@typescript-eslint/no-unused-vars": "off",
       "unused-imports/no-unused-imports": "error",

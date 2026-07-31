@@ -21,15 +21,16 @@ jobs:
       - name: Install root tooling
         run: npm install
 
-      - name: Lint
-        run: npm run lint:client
-
       - name: Prettier
         run: npm run format:check:client
 
       - name: Install client
         working-directory: client
         run: npm ci
+
+      - name: Lint
+        working-directory: client
+        run: npm run lint
 
       - name: Typecheck
         working-directory: client

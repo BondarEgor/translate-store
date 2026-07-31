@@ -1,3 +1,4 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { translationsApi } from "@/entities/translations/api";
 import { useAppMutation } from "@/shared/hooks/use-app-mutation";
 import { TranslationValueCell } from "@/shared/ui/translation-value-cell";
@@ -16,6 +17,8 @@ export const EditTranslation = ({
   locale: string;
   translateKey: string;
 }) => {
+  const queryClient = useQueryClient();
+
   const { mutate } = useAppMutation({
     onMutate: (newValue) =>
       onUpdateTranslation({
@@ -31,6 +34,7 @@ export const EditTranslation = ({
         key: translateKey,
         value: newValue,
       }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["translations", namespace] }),
   });
 
   return <TranslationValueCell value={value} onSave={(value) => mutate(value)} />;

@@ -1,0 +1,12 @@
+.options {
+  height: 260px;
+}
+
+.option {
+  justify-content: flex-start;
+  margin: 0;
+}
+
+.input {
+  font-family: var(--code-font-family);
+}

@@ -1,4 +1,3 @@
-/** Русская плюрализация: plural(2, 'таблица', 'таблицы', 'таблиц') → 'таблицы'. */
 export function plural(n: number, one: string, few: string, many: string): string {
   const mod100 = Math.abs(n) % 100;
   const mod10 = mod100 % 10;

@@ -1,0 +1,24 @@
+.view {
+  cursor: text;
+}
+
+.view .pen {
+  color: var(--gray-a8);
+  flex-shrink: 0;
+  transition: color 120ms ease;
+}
+
+.view:hover .pen {
+  color: var(--green-11);
+}
+
+.value {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.edit,
+.edit textarea {
+  height: 36px;
+  min-height: 36px;
+}

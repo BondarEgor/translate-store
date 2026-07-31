@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Flex, Text, TextArea } from "@radix-ui/themes";
 import { Pencil2Icon } from "@radix-ui/react-icons";
+import css from "./styles.module.css";
 
 type Props = {
   value: string | undefined;
@@ -16,25 +17,17 @@ export const TranslationValueCell = ({ value, onSave }: Props) => {
       <Flex
         gap="2"
         align="center"
-        justify={"between"}
-        style={{ cursor: "text" }}
+        justify="between"
+        className={css.view}
         onClick={() => {
           setDraft(value ?? "");
           setEditing(true);
         }}
       >
-        <Text
-          as="div"
-          size="2"
-          color={value ? undefined : "gray"}
-          style={{
-            whiteSpace: "pre-wrap",
-            wordBreak: "break-word",
-          }}
-        >
+        <Text as="div" size="2" color={value ? undefined : "gray"} className={css.value}>
           {value || "Пусто — клик, чтобы заполнить"}
         </Text>
-        <Pencil2Icon />
+        <Pencil2Icon className={css.pen} />
       </Flex>
     );
   }
@@ -45,7 +38,7 @@ export const TranslationValueCell = ({ value, onSave }: Props) => {
       size="1"
       rows={1}
       resize="none"
-      className="value-edit"
+      className={css.edit}
       onBlur={() => {
         const next = draft.trim();
 

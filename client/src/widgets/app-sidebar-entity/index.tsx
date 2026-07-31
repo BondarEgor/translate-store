@@ -1,9 +1,10 @@
+import { useState, type ReactNode } from "react";
 import { StarFilledIcon } from "@radix-ui/react-icons";
 import { Text } from "@radix-ui/themes";
-import { NavSection } from "../../components/nav-section";
-import { NavRow } from "../../components/naw-row";
-import { ReactNode, useState } from "react";
 import { toast } from "sonner";
+import { NavSection } from "@/shared/ui/nav-section";
+import { NavRow } from "@/shared/ui/nav-row";
+import css from "./styles.module.css";
 
 type Props = {
   items: { name: string; isDefault?: boolean }[];
@@ -70,7 +71,7 @@ export const AppSidebarEntity = ({
           key={item.name}
           action={
             item.isDefault ? (
-              <StarFilledIcon width="14" height="14" style={{ margin: "0 6px", flexShrink: 0 }} />
+              <StarFilledIcon width="14" height="14" className={css.star} />
             ) : (
               renderDeleteNode({
                 onDeleteEntity,
@@ -83,7 +84,7 @@ export const AppSidebarEntity = ({
         </NavRow>
       ))}
       {items.size === 0 && (
-        <Text size="1" color="gray" style={{ padding: "0 8px" }}>
+        <Text size="1" color="gray" className={css.empty}>
           Пусто
         </Text>
       )}

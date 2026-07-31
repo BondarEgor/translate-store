@@ -1,0 +1,30 @@
+.sidebar {
+  background: var(--gray-a1);
+}
+
+.header {
+  height: 56px;
+  border-bottom: 1px solid var(--gray-a4);
+}
+
+.logo {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  color: var(--white);
+  background: linear-gradient(135deg, var(--green-9), var(--green-10));
+  box-shadow: 0 0 12px var(--green-a5);
+}
+
+.titleBox {
+  min-width: 0;
+  line-height: 1.2;
+}
+
+.body {
+  flex-grow: 1;
+  min-height: 0;
+}

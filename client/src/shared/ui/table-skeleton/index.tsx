@@ -1,19 +1,12 @@
 import { Flex, Skeleton } from "@radix-ui/themes";
-import { KEYS_TABLE_BORDER } from "@/shared/constants/keys-table";
+import css from "./styles.module.css";
 
 export const TableSkeleton = ({ rows = 6 }: { rows?: number }) => (
   <Flex direction="column" flexGrow="1">
     {Array.from({ length: rows }, (_, index) => (
-      <Flex
-        key={index}
-        align="center"
-        gap="3"
-        px="4"
-        flexShrink="0"
-        style={{ height: 61, borderBottom: KEYS_TABLE_BORDER }}
-      >
-        <Skeleton style={{ width: 120, height: 16 }} />
-        <Skeleton style={{ width: "40%", height: 16 }} />
+      <Flex key={index} align="center" gap="3" px="4" flexShrink="0" className={css.row}>
+        <Skeleton className={css.key} />
+        <Skeleton className={css.value} />
       </Flex>
     ))}
   </Flex>

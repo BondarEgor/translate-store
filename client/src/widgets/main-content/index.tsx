@@ -1,3 +1,4 @@
+import { GlobeIcon } from "@radix-ui/react-icons";
 import { KeyTablesWrapper } from "./wrapper";
 import { EmptyState } from "@/shared/ui/empty-state";
 import { Locales } from "@/entities/locales/types";
@@ -12,7 +13,13 @@ export const MainContent = ({
   locales: Locales;
 }) => {
   if (!activeNamespace || !activeLocale) {
-    return <EmptyState text="Выберите таблицу и язык" />;
+    return (
+      <EmptyState
+        text="Выберите таблицу и язык"
+        hint="Оба списка — слева"
+        icon={<GlobeIcon width="20" height="20" />}
+      />
+    );
   }
 
   return (

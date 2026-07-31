@@ -1,15 +1,13 @@
-import { useState } from "react";
-import { Box, Flex, ScrollArea, Separator, Text } from "@radix-ui/themes";
-import { ConfirmDialog } from "@/components/confirm-dialog";
-import { AppSidebarEntity } from "../widgets/app-sidebar-entity";
+import { Flex, ScrollArea, Separator, Text } from "@radix-ui/themes";
+import { GlobeIcon } from "@radix-ui/react-icons";
+import { AppSidebarEntity } from "@/widgets/app-sidebar-entity";
 import { DeleteLanguage } from "@/features/delete-language";
 import { DeleteNamespace } from "@/features/delete-namespace";
 import { AddNewLanguage } from "@/features/add-language";
 import { AddNamespace } from "@/features/add-namespace";
 import { Namespaces } from "@/entities/namespaces/types";
 import { Locales } from "@/entities/locales/types";
-
-const BORDER = "1px solid var(--gray-a4)";
+import css from "./styles.module.css";
 
 type Props = {
   locales: Locales;
@@ -28,37 +26,31 @@ export function AppSidebar({
   onSelectLocale,
   namespaces,
 }: Props) {
-  const [removeLocale, setRemoveLocale] = useState<string | null>(null);
-
   const sortedLocalesByDefault = [...locales].sort(
     (a, b) => Number(b.isDefault) - Number(a.isDefault),
   );
 
   return (
-    <Flex direction="column" className="app-sidebar">
-      <Flex
-        align="center"
-        gap="3"
-        px="4"
-        height="56px"
-        flexShrink="0"
-        style={{ borderBottom: BORDER }}
-      >
-        <Box style={{ minWidth: 0 }}>
-          <Text as="div" size="2" weight="bold" truncate>
+    <Flex direction="column" className={`app-sidebar ${css.sidebar}`}>
+      <Flex align="center" gap="3" px="4" flexShrink="0" className={css.header}>
+        <Flex className={css.logo}>
+          <GlobeIcon width="15" height="15" />
+        </Flex>
+        <Flex direction="column" className={css.titleBox}>
+          <Text size="2" weight="bold" truncate>
             Translate{" "}
             <Text as="span" size="2" weight="bold" color="green">
               Store
             </Text>
           </Text>
-          <Text as="div" size="1" color="gray">
+          <Text size="1" color="gray">
             all keys, no mess
           </Text>
-        </Box>
+        </Flex>
       </Flex>
 
-      <ScrollArea type="auto" style={{ flexGrow: 1, minHeight: 0 }}>
-        <Box py="3">
+      <ScrollArea type="auto" className={css.body}>
+        <Flex direction="column" py="3">
           <AppSidebarEntity
             renderAddItemNode={({ onAddEntity }) => (
               <AddNamespace
@@ -90,18 +82,8 @@ export function AppSidebar({
               isDefault: locale.isDefault,
             }))}
           />
-        </Box>
+        </Flex>
       </ScrollArea>
-
-      {/* <SidebarBottomInfo stats={s} /> */}
-
-      <ConfirmDialog
-        open={removeLocale !== null}
-        onOpenChange={(o) => !o && setRemoveLocale(null)}
-        title={`Удалить язык ${removeLocale}?`}
-        description="Язык и все его переводы будут удалены безвозвратно."
-        onConfirm={() => {}}
-      />
     </Flex>
   );
 }

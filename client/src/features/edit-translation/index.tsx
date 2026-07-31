@@ -1,7 +1,7 @@
 import { translationsApi } from "@/entities/translations/api";
 import { useAppMutation } from "@/shared/hooks/use-app-mutation";
 import { TranslationValueCell } from "@/shared/ui/translation-value-cell";
-import { Translation } from "@/types/locales.types";
+import { Translation } from "@/entities/translations/types";
 
 export const EditTranslation = ({
   value,

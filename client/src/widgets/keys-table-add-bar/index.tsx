@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Flex, Text, TextField } from "@radix-ui/themes";
-import { KEYS_TABLE_BORDER, KEYS_TABLE_MONO } from "@/shared/constants/keys-table";
-import { plural } from "@/lib/plural";
+import { plural } from "@/shared/lib/plural";
 import { AddTranslation } from "@/features/add-translation";
-import { Translation } from "@/entities/translations/types";
+import { Translation, Translations } from "@/entities/translations/types";
+import css from "./styles.module.css";
 
 type Props = {
   namespace: string;
@@ -11,7 +11,7 @@ type Props = {
   missing: number;
   locale: string;
   existingKeys: Set<string>;
-  onAdd: (translation: Translation) => void;
+  onAdd: (translation: Translation | Translations) => void;
 };
 
 export const KeysTableAddBar = ({
@@ -28,48 +28,42 @@ export const KeysTableAddBar = ({
   const isDuplicate = existingKeys.has(key.trim());
   const isEmpty = !key.trim() || !value.trim();
 
-  const onEnter = (event: React.KeyboardEvent) => event.key === "Enter";
-
   return (
-    <Flex
-      align="center"
-      gap="2"
-      p="3"
-      flexShrink="0"
-      className="add-bar"
-      style={{ borderTop: KEYS_TABLE_BORDER }}
-    >
-      <TextField.Root
-        placeholder="новый.ключ.путь"
-        color={isDuplicate ? "red" : undefined}
-        className="add-bar-key"
-        style={{ ...KEYS_TABLE_MONO }}
-        value={key}
-        onChange={(event) => setKey(event.target.value)}
-        onKeyDown={onEnter}
-      />
-      <TextField.Root
-        placeholder="Значение на основном языке…"
-        style={{ flex: 1 }}
-        value={value}
-        onChange={(event) => setValue(event.target.value)}
-        onKeyDown={onEnter}
-      />
+    <form onSubmit={(event) => event.preventDefault()}>
+      <Flex align="center" gap="2" p="3" flexShrink="0" className={css.bar}>
+        <TextField.Root
+          placeholder="новый.ключ.путь"
+          color={isDuplicate ? "red" : undefined}
+          className={`${css.key} ${css.mono}`}
+          value={key}
+          onChange={(event) => setKey(event.target.value)}
+        />
+        <TextField.Root
+          placeholder="Значение на основном языке…"
+          className={css.value}
+          value={value}
+          onChange={(event) => setValue(event.target.value)}
+        />
 
-      <AddTranslation
-        disabled={isEmpty || isDuplicate}
-        onAddSuccess={onAdd}
-        queryItem={{
-          key: key.trim(),
-          value: value.trim(),
-          namespace,
-          locale,
-        }}
-      />
-      <Text size="1" color="gray" className="add-bar-stats" style={{ flexShrink: 0 }}>
-        {total} {plural(total, "ключ", "ключа", "ключей")} · {locale.toUpperCase()}:{" "}
-        {missing ? `ждут ${missing}` : "полный"}
-      </Text>
-    </Flex>
+        <AddTranslation
+          disabled={isEmpty || isDuplicate}
+          onAddSuccess={(translation) => {
+            onAdd(translation);
+            setKey("");
+            setValue("");
+          }}
+          queryItem={{
+            key: key.trim(),
+            value: value.trim(),
+            namespace,
+            locale,
+          }}
+        />
+        <Text size="1" color="gray" className={css.stats}>
+          {total} {plural(total, "ключ", "ключа", "ключей")} · {locale.toUpperCase()}:{" "}
+          {missing ? `ждут ${missing}` : "полный"}
+        </Text>
+      </Flex>
+    </form>
   );
 };

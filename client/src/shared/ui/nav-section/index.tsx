@@ -1,13 +1,14 @@
-import { Box, Flex, IconButton, ChevronDownIcon, Text } from "@radix-ui/themes";
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
+import { Box, ChevronDownIcon, Flex, IconButton, Text } from "@radix-ui/themes";
+import css from "./styles.module.css";
 
-export const NavSection = ({ label, children }: { label: string; children: React.ReactNode }) => {
+export const NavSection = ({ label, children }: { label: string; children: ReactNode }) => {
   const [open, setOpen] = useState(true);
 
   return (
     <Box px="1">
       <Flex align="center" justify="between" px="2" py="1">
-        <Text size="1" weight="medium" color="gray">
+        <Text size="1" weight="medium" className={css.label}>
           {label}
         </Text>
         <IconButton
@@ -16,7 +17,7 @@ export const NavSection = ({ label, children }: { label: string; children: React
           color="gray"
           aria-label={`Свернуть ${label}`}
           onClick={() => setOpen((v) => !v)}
-          style={{ transform: open ? "rotate(180deg)" : "none" }}
+          className={open ? css.chevronOpen : css.chevron}
         >
           <ChevronDownIcon />
         </IconButton>

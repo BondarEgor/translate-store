@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  client:
+    name: Client
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install root tooling
+        run: npm install
+
+      - name: Lint
+        run: npm run lint:client
+
+      - name: Prettier
+        run: npm run format:check:client
+
+      - name: Install client
+        working-directory: client
+        run: npm ci
+
+      - name: Typecheck
+        working-directory: client
+        run: npx tsc -b
+
+      - name: Build
+        working-directory: client
+        run: npm run build

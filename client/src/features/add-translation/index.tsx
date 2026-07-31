@@ -1,5 +1,6 @@
 import { PlusIcon } from "@radix-ui/react-icons";
 import { Button } from "@radix-ui/themes";
+import { useQueryClient } from "@tanstack/react-query";
 import { translationsApi } from "@/entities/translations/api";
 import { Translation } from "@/entities/translations/types";
 import { useAppMutation } from "@/shared/hooks/use-app-mutation";
@@ -19,10 +20,15 @@ type Props = {
 };
 
 export const AddTranslation = ({ queryItem, invalid, onInvalid, onAddSuccess }: Props) => {
+  const queryClient = useQueryClient();
+
   const { mutate, isPending } = useAppMutation({
     onMutate: (item) => onAddSuccess(item),
     mutationFn: (item: QueryItem) => translationsApi.create(item),
-    onSuccess: onAddSuccess,
+    onSuccess: (data, item) => {
+      onAddSuccess(data);
+      queryClient.invalidateQueries({ queryKey: ["translations", item.namespace] });
+    },
   });
 
   const onSubmit = () => {

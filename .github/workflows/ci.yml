@@ -37,3 +37,26 @@ jobs:
       - name: Build
         working-directory: client
         run: npm run build
+
+  chromatic:
+    name: Chromatic
+    runs-on: ubuntu-latest
+    env:
+      CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install client
+        working-directory: client
+        run: npm ci
+
+      - name: Publish
+        if: ${{ env.CHROMATIC_PROJECT_TOKEN != '' }}
+        working-directory: client
+        run: npm run chromatic

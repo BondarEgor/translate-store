@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Flex, IconButton, Text, Theme } from "@radix-ui/themes";
+import { Box, Flex, IconButton, Text, Theme } from "@radix-ui/themes";
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { Toaster } from "sonner";
 import { AppSidebar } from "@/widgets/app-sidebar";
 import { AppSkeleton } from "@/shared/ui/app-skeleton";
+import { SyncTranslations } from "@/features/sync-translations";
 import { useBootstrap } from "./use-bootstrap";
 import { MainContent } from "./widgets/main-content";
 import css from "./app.module.css";
@@ -65,6 +66,10 @@ export function App() {
               )}
               {activeLocale && ` / ${activeLocale}`}
             </Text>
+
+            <Box flexGrow="1" />
+
+            <SyncTranslations />
           </Flex>
 
           <MainContent activeNamespace={activeNs} activeLocale={activeLocale} locales={locales} />

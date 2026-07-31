@@ -36,7 +36,7 @@ export const Missing: Story = {
   },
 };
 
-export const ReadOnly: Story = {
+export const OtherLocale: Story = {
   args: {
     row: { namespace: "home", key: "buy", value: "buy", locale: "en" },
     defaultLocale: "ru",

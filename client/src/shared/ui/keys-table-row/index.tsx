@@ -23,7 +23,6 @@ export const KeysTableRow = ({
   onUpdateTranslation,
   onDeleteTranslation,
 }: Props) => {
-  const editable = row.locale === defaultLocale;
   const hasValue = row.value.length > 0;
 
   return (
@@ -54,7 +53,7 @@ export const KeysTableRow = ({
       </Box>
 
       <Box className={css.cell}>
-        {editable ? (
+        {hasValue || row.locale === defaultLocale ? (
           <EditTranslation
             value={row.value}
             onUpdateTranslation={onUpdateTranslation}
@@ -62,7 +61,7 @@ export const KeysTableRow = ({
             namespace={namespace}
             locale={row.locale}
           />
-        ) : !hasValue ? (
+        ) : (
           <Flex align="center" gap="2">
             <Text size="2" color="gray">
               Нет перевода
@@ -74,12 +73,6 @@ export const KeysTableRow = ({
               value={pullValue}
             />
           </Flex>
-        ) : (
-          <Tooltip content="Правится через основной язык">
-            <Text as="div" size="2" className={css.value}>
-              {row.value}
-            </Text>
-          </Tooltip>
         )}
       </Box>
       <DeleteTranslation

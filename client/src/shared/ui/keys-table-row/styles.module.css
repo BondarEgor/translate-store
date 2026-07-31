@@ -28,8 +28,3 @@
 .mono {
   font-family: var(--code-font-family);
 }
-
-.value {
-  white-space: pre-wrap;
-  word-break: break-word;
-}

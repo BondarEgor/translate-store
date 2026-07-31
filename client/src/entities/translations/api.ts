@@ -48,4 +48,6 @@ export const translationsApi = {
       value,
     });
   },
+
+  sync: () => api.post<void>("/api/sync", {}),
 };

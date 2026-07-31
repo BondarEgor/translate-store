@@ -8,10 +8,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint:client": "eslint client",
-    "format:check:client": "prettier --check client",
-    "dev:client": "npm --prefix client run dev",
-    "storybook": "npm --prefix client run storybook",
-    "chromatic": "npm --prefix client run chromatic"
+    "format:check:client": "prettier --check client"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",

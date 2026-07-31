@@ -1,5 +1,6 @@
-import { Dialog, TextField, Flex, Button, ScrollArea } from "@radix-ui/themes";
 import { useState } from "react";
+import { Button, Dialog, Flex, ScrollArea, TextField } from "@radix-ui/themes";
+import css from "./styles.module.css";
 
 type Props = {
   title: string;
@@ -31,7 +32,7 @@ export const AddNewEntityModal = ({
         <Dialog.Description size="2">{description}</Dialog.Description>
 
         {options ? (
-          <ScrollArea type="auto" mt="3" style={{ height: 260 }}>
+          <ScrollArea type="auto" mt="3" className={css.options}>
             <Flex direction="column" gap="1" pr="2">
               {Object.entries(options).map(([code, name]) => (
                 <Button
@@ -39,7 +40,7 @@ export const AddNewEntityModal = ({
                   variant={entityName === code ? "soft" : "ghost"}
                   color={entityName === code ? undefined : "gray"}
                   onClick={() => setEntityName(code)}
-                  style={{ justifyContent: "flex-start", margin: 0 }}
+                  className={css.option}
                 >
                   {code} — {name}
                 </Button>
@@ -52,7 +53,7 @@ export const AddNewEntityModal = ({
             mt="3"
             value={entityName}
             placeholder="Введите название"
-            style={{ fontFamily: "monospace" }}
+            className={css.input}
             onChange={(e) => setEntityName(e.target.value)}
           />
         )}

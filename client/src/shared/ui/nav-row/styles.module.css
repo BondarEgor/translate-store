@@ -1,0 +1,6 @@
+.button {
+  flex: 1;
+  min-width: 0;
+  justify-content: flex-start;
+  margin: 0;
+}

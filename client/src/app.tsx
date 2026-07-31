@@ -2,12 +2,11 @@ import { useState } from "react";
 import { Flex, IconButton, Text, Theme } from "@radix-ui/themes";
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { Toaster } from "sonner";
-import { AppSidebar } from "@/components/app-sidebar";
+import { AppSidebar } from "@/widgets/app-sidebar";
 import { AppSkeleton } from "@/shared/ui/app-skeleton";
 import { useBootstrap } from "./use-bootstrap";
 import { MainContent } from "./widgets/main-content";
-
-const BORDER = "1px solid var(--gray-a4)";
+import css from "./app.module.css";
 
 export function App() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -43,15 +42,8 @@ export function App() {
           />
         )}
 
-        <Flex direction="column" flexGrow="1" style={{ minWidth: 0 }}>
-          <Flex
-            align="center"
-            gap="3"
-            px="4"
-            height="56px"
-            flexShrink="0"
-            style={{ borderBottom: BORDER, boxShadow: "var(--shadow-3)" }}
-          >
+        <Flex direction="column" flexGrow="1" className={css.main}>
+          <Flex align="center" gap="3" px="4" flexShrink="0" className={css.header}>
             <IconButton
               variant="ghost"
               color="gray"

@@ -22,6 +22,8 @@ export default tseslint.config(
       "**/node_modules/**",
       "**/dist/**",
       "**/.vite/**",
+      "**/storybook-static/**",
+      "**/chromatic-build/**",
       "**/types/database.types.ts",
     ],
   },

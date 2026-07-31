@@ -17,5 +17,5 @@ export const DeleteLanguage = ({ locale, onDeleteLocale }: Props) => {
     mutationKey: ["delete language"],
   });
 
-  return <DeleteEntityButton onConfirm={mutate} />;
+  return <DeleteEntityButton entityName={locale} entityType="язык" onConfirm={mutate} />;
 };

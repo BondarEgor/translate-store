@@ -1,13 +1,12 @@
 import { useState } from "react";
-import { Box, Flex, ScrollArea, Text, TextField } from "@radix-ui/themes";
-import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
-import type { Translation } from "@/api";
+import { Box, Flex, ScrollArea, TextField } from "@radix-ui/themes";
+import { FilePlusIcon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { KeysTableRow } from "@/shared/ui/keys-table-row";
 import { EmptyState } from "@/shared/ui/empty-state";
-import { KEYS_TABLE_BORDER } from "@/shared/constants/keys-table";
 import { KeysTableAddBar } from "@/widgets/keys-table-add-bar";
 import { Locales } from "@/entities/locales/types";
-import { Translations } from "@/entities/translations/types";
+import { Translation, Translations } from "@/entities/translations/types";
+import css from "./styles.module.css";
 
 type Props = {
   translations?: Translations;
@@ -95,11 +94,11 @@ export const KeysTable = ({
 
   if (!activeNamespace) {
     return (
-      <Flex flexGrow="1" align="center" justify="center" p="8">
-        <Text size="2" color="gray" align="center">
-          Создайте первую таблицу в списке слева — это секунды две.
-        </Text>
-      </Flex>
+      <EmptyState
+        text="Таблиц пока нет"
+        hint="Создайте первую в списке слева — это секунды две"
+        icon={<FilePlusIcon width="20" height="20" />}
+      />
     );
   }
 
@@ -125,24 +124,18 @@ export const KeysTable = ({
     );
   });
 
+  const missing = translationsForLocale.filter((translation) => !translation.value).length;
+
   return (
     <>
-      <Flex
-        wrap="wrap"
-        align="center"
-        gap="2"
-        px="4"
-        py="3"
-        flexShrink="0"
-        style={{ borderBottom: KEYS_TABLE_BORDER }}
-      >
+      <Flex wrap="wrap" align="center" gap="2" px="4" py="3" flexShrink="0" className={css.toolbar}>
         <Box flexGrow="1" />
 
         <TextField.Root
           placeholder="Фильтр по ключу или значению"
           value={query}
           onChange={(event) => setQuery(event.target.value)}
-          className="keys-search"
+          className={css.search}
         >
           <TextField.Slot>
             <MagnifyingGlassIcon />
@@ -151,7 +144,7 @@ export const KeysTable = ({
       </Flex>
 
       {searchedTranslations.length > 0 ? (
-        <ScrollArea type="auto" style={{ flexGrow: 1, minHeight: 0 }}>
+        <ScrollArea type="auto" className={css.body}>
           {searchedTranslations.map((translation) => (
             <KeysTableRow
               namespace={activeNamespace}
@@ -167,13 +160,17 @@ export const KeysTable = ({
           ))}
         </ScrollArea>
       ) : (
-        <EmptyState text="Ключей пока нет" />
+        <EmptyState
+          text={query ? "Ничего не найдено" : "Ключей пока нет"}
+          hint={query ? `По запросу «${query}» пусто` : "Добавьте первый ключ внизу"}
+          icon={<MagnifyingGlassIcon width="20" height="20" />}
+        />
       )}
 
       <KeysTableAddBar
         namespace={activeNamespace}
-        total={translations.size}
-        missing={0}
+        total={keys.length}
+        missing={missing}
         locale={defaultLocale}
         existingKeys={new Set(keys)}
         onAdd={onAddKey}

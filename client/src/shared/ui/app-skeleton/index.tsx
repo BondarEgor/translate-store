@@ -1,19 +1,18 @@
 import { Flex, Skeleton } from "@radix-ui/themes";
 import { TableSkeleton } from "../table-skeleton";
-
-const BORDER = "1px solid var(--gray-a4)";
+import css from "./styles.module.css";
 
 export const AppSkeleton = () => (
   <Flex className="app-shell">
     <Flex direction="column" gap="2" p="3" className="app-sidebar">
-      <Skeleton style={{ width: 140, height: 20 }} />
+      <Skeleton className={css.logo} />
       {Array.from({ length: 6 }, (_, index) => (
-        <Skeleton key={index} style={{ width: "80%", height: 14 }} />
+        <Skeleton key={index} className={css.item} />
       ))}
     </Flex>
 
     <Flex direction="column" flexGrow="1">
-      <Flex height="56px" flexShrink="0" style={{ borderBottom: BORDER }} />
+      <Flex className={css.header} />
       <TableSkeleton />
     </Flex>
   </Flex>

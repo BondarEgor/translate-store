@@ -1,5 +1,5 @@
 import { localesApi } from "@/entities/locales/api";
-import { LOCALE_RU } from "@/constants/locales";
+import { LOCALE_RU } from "@/shared/constants/locales";
 import { AddNewSidebarEntityItem } from "@/shared/ui/add-new-sidebar-entity";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 

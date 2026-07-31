@@ -1,0 +1,15 @@
+.logo {
+  width: 140px;
+  height: 20px;
+}
+
+.item {
+  width: 80%;
+  height: 14px;
+}
+
+.header {
+  height: 56px;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--gray-a4);
+}

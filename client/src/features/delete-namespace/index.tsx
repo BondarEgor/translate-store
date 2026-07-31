@@ -16,5 +16,5 @@ export const DeleteNamespace = ({ namespace, onDeleteNamespace }: Props) => {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["namespaces"] }),
   });
 
-  return <DeleteEntityButton onConfirm={mutate} />;
+  return <DeleteEntityButton entityName={namespace} entityType="таблицу" onConfirm={mutate} />;
 };

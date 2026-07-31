@@ -1,8 +1,8 @@
-import { AddNewEntityModal } from "@/components/add-new-entity";
-import { NavRow } from "@/components/naw-row";
+import { useState } from "react";
 import { PlusIcon } from "@radix-ui/react-icons";
 import { Text } from "@radix-ui/themes";
-import { useState } from "react";
+import { AddNewEntityModal } from "@/shared/ui/add-new-entity-modal";
+import { NavRow } from "@/shared/ui/nav-row";
 
 type Props = {
   onConfirm: (entityName: string) => void;

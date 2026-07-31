@@ -1,0 +1,9 @@
+.star {
+  margin: 0 6px;
+  flex-shrink: 0;
+  color: var(--green-9);
+}
+
+.empty {
+  padding: 0 8px;
+}

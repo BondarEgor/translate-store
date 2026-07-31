@@ -1,10 +1,10 @@
 import { Box, Flex, Grid, Text, Tooltip } from "@radix-ui/themes";
-import type { Translation } from "@/api";
+import type { Translation } from "@/entities/translations/types";
 import { TranslationKeyName } from "@/shared/ui/translation-key-name";
-import { KEYS_TABLE_BORDER, KEYS_TABLE_MONO } from "@/shared/constants/keys-table";
 import { DeleteTranslation } from "@/features/delete-translation";
 import { EditTranslation } from "@/features/edit-translation";
 import { PullTranslation } from "@/features/pull-translation";
+import css from "./styles.module.css";
 
 type Props = {
   row: Translation;
@@ -33,21 +33,12 @@ export const KeysTableRow = ({
       px="4"
       py="3"
       align="center"
-      className="row-hover"
-      style={{ borderBottom: KEYS_TABLE_BORDER }}
+      className={css.row}
     >
       <Tooltip content={hasValue ? "Перевод есть" : "Нет перевода"}>
-        <Box
-          width="8px"
-          height="8px"
-          flexShrink="0"
-          style={{
-            borderRadius: "50%",
-            background: hasValue ? "var(--green-9)" : "var(--gray-a6)",
-          }}
-        />
+        <Box className={hasValue ? css.dotFilled : css.dot} />
       </Tooltip>
-      <Box style={{ minWidth: 0 }}>
+      <Box className={css.cell}>
         <TranslationKeyName row={row} />
 
         <Text
@@ -56,13 +47,13 @@ export const KeysTableRow = ({
           color="gray"
           truncate
           title={`${row.namespace}.${row.key}`}
-          style={KEYS_TABLE_MONO}
+          className={css.mono}
         >
           {row.namespace}.{row.key}
         </Text>
       </Box>
 
-      <Box style={{ minWidth: 0 }}>
+      <Box className={css.cell}>
         {editable ? (
           <EditTranslation
             value={row.value}
@@ -85,7 +76,7 @@ export const KeysTableRow = ({
           </Flex>
         ) : (
           <Tooltip content="Правится через основной язык">
-            <Text as="div" size="2" style={{ whiteSpace: "pre-wrap", wordBreak: "break-word" }}>
+            <Text as="div" size="2" className={css.value}>
               {row.value}
             </Text>
           </Tooltip>

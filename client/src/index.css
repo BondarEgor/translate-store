@@ -11,22 +11,11 @@ body {
   font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
 }
 
-.row-hover:hover {
-  background: var(--gray-a2);
-}
-
-.row-hover,
 .rt-BaseButton {
   transition:
     background-color 120ms ease,
     color 120ms ease,
     border-color 120ms ease;
-}
-
-.value-edit,
-.value-edit textarea {
-  height: 36px;
-  min-height: 36px;
 }
 
 .app-shell {
@@ -40,15 +29,6 @@ body {
   border-right: 1px solid var(--gray-a4);
 }
 
-.keys-search {
-  width: 260px;
-}
-
-.add-bar-key {
-  width: 224px;
-  flex-shrink: 0;
-}
-
 @media (max-width: 640px) {
   .app-shell {
     flex-direction: column;
@@ -59,18 +39,5 @@ body {
     max-height: 40vh;
     border-right: none;
     border-bottom: 1px solid var(--gray-a4);
-  }
-
-  .keys-search,
-  .add-bar-key {
-    width: 100%;
-  }
-
-  .add-bar {
-    flex-wrap: wrap;
-  }
-
-  .add-bar-stats {
-    display: none;
   }
 }

@@ -1,0 +1,14 @@
+.row {
+  height: 61px;
+  border-bottom: 1px solid var(--gray-a4);
+}
+
+.key {
+  width: 120px;
+  height: 16px;
+}
+
+.value {
+  width: 40%;
+  height: 16px;
+}

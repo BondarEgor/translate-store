@@ -1,4 +1,4 @@
-import { ConfirmDialog } from "@/components/confirm-dialog";
+import { ConfirmDialog } from "@/shared/ui/confirm-dialog";
 import { translationsApi } from "@/entities/translations/api";
 import { TrashIcon } from "@radix-ui/react-icons";
 import { Tooltip, IconButton } from "@radix-ui/themes";

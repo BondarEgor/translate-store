@@ -1,0 +1,9 @@
+.main {
+  min-width: 0;
+}
+
+.header {
+  height: 56px;
+  border-bottom: 1px solid var(--gray-a4);
+  box-shadow: var(--shadow-3);
+}

@@ -1,19 +1,25 @@
-import { ConfirmDialog } from "@/components/confirm-dialog";
+import { useState } from "react";
 import { TrashIcon } from "@radix-ui/react-icons";
 import { IconButton, Tooltip } from "@radix-ui/themes";
-import { useState } from "react";
+import { ConfirmDialog } from "@/shared/ui/confirm-dialog";
 
-export const DeleteEntityButton = ({ onConfirm }: { onConfirm: () => void }) => {
+type Props = {
+  entityName: string;
+  entityType: string;
+  onConfirm: () => void;
+};
+
+export const DeleteEntityButton = ({ entityName, entityType, onConfirm }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
-      <Tooltip content="Удалить язык">
+      <Tooltip content={`Удалить ${entityType}`}>
         <IconButton
           size="1"
           variant="ghost"
           color="gray"
-          aria-label={`Удалить язык `}
+          aria-label={`Удалить ${entityType} ${entityName}`}
           onClick={(e) => {
             e.stopPropagation();
             setIsOpen(true);
@@ -25,8 +31,8 @@ export const DeleteEntityButton = ({ onConfirm }: { onConfirm: () => void }) => 
 
       <ConfirmDialog
         open={isOpen}
-        title={`Удалить язык ?`}
-        description="Язык и все его переводы будут удалены безвозвратно."
+        title={`Удалить ${entityType} ${entityName}?`}
+        description="Все связанные переводы будут удалены безвозвратно."
         onConfirm={onConfirm}
         onOpenChange={setIsOpen}
       />
